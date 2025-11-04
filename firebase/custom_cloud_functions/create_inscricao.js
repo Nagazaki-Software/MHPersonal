@@ -4,11 +4,19 @@
  */
 const functions = require("firebase-functions");
 const cors = require("cors")({ origin: true });
-// Carrega a chave secreta da Stripe de variáveis de ambiente.
-const STRIPE_SECRET_KEY =
-  process.env.STRIPE_TEST_SECRET_KEY || process.env.STRIPE_LIVE_SECRET_KEY || "";
-const stripe = require("stripe")(STRIPE_SECRET_KEY, {
-  apiVersion: "2022-11-15", // <<-- USANDO A MESMA VERSÃO do createPaymentIntent
+const stripeSecret =
+  process.env.STRIPE_SECRET_KEY ||
+  (functions.config && functions.config().stripe && functions.config().stripe.secret) ||
+  "";
+
+if (!stripeSecret) {
+  console.warn(
+    "Stripe secret key not found. Set STRIPE_SECRET_KEY env var or functions.config().stripe.secret"
+  );
+}
+
+const stripe = require("stripe")(stripeSecret, {
+  apiVersion: "2022-11-15",
 });
 
 exports.createInscricao = functions
@@ -41,7 +49,7 @@ exports.createInscricao = functions
             });
         }
 
-        // --- INÍCIO DA LÓGICA ESPECÍFICA DA ASSINATURA ---
+        // --- INÍCIO DA LÓGICA ESPEĆIFICA DA ASSINATURA ---
         //    (Substitui a lógica do Payment Intent)
 
         // 1. Encontrar ou Criar Cliente Stripe
@@ -90,7 +98,7 @@ exports.createInscricao = functions
           });
         }
 
-        // --- FIM DA LÓGICA ESPECÍFICA DA ASSINATURA ---
+        // --- FIM DA LÓGICA ESPEĆIFICA DA ASSINATURA ---
 
         // Retorna sucesso com os dados da ASSINATURA
         // Mantendo a chave 'success: true' como no seu exemplo
@@ -112,4 +120,3 @@ exports.createInscricao = functions
       }
     });
   });
-

@@ -236,8 +236,6 @@ function getCharForIndex(charIdx) {
 const stripeModule = require("stripe");
 
 // Credentials
-// Load Stripe secret keys from environment variables instead of hardcoding.
-// Configure these in your deployment environment or Firebase Functions config.
 const kStripeProdSecretKey = process.env.STRIPE_LIVE_SECRET_KEY || "";
 const kStripeTestSecretKey = process.env.STRIPE_TEST_SECRET_KEY || "";
 
