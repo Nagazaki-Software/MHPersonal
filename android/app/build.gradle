@@ -81,6 +81,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // Resolve duplicate libc++_shared.so from multiple native deps (e.g., ffmpeg-kit, libVLC)
+    packagingOptions {
+        // Older AGP syntax still supported; match all ABIs
+        pickFirst '**/libc++_shared.so'
+        pickFirst 'lib/**/libc++_shared.so'
+    }
 }
 
 flutter {
