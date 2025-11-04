@@ -333,10 +333,10 @@ packages:
     dependency: "direct main"
     description:
       name: ffmpeg_kit_flutter_full_gpl
-      sha256: ac2d8b641b5f388cadc717de4381ce1da53831ff9d71f108007a5edc814d08ab
+      sha256: "4f269bcb636bfcb544e5b4d65c706a3d311839970cb42638e72406410c1b5b7b"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.2-LTS"
+    version: "6.0.3"
   ffmpeg_kit_flutter_platform_interface:
     dependency: transitive
     description:
