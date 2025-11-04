@@ -28,11 +28,12 @@ Future<Uint8List> transcodeToCompatibleMp4(
         final type = s?.getType();
         if (type != null && type.toLowerCase() == 'video') {
           vcodec = s?.getCodec();
-          final hStr = s?.getHeight();
-          if (hStr is String) {
-            height = int.tryParse(hStr);
-          } else if (hStr is int) {
-            height = hStr;
+          // getHeight can be String or int depending on probe; handle both safely.
+          final Object? hVal = s?.getHeight();
+          if (hVal is String) {
+            height = int.tryParse(hVal);
+          } else if (hVal is int) {
+            height = hVal;
           }
           break;
         }
@@ -98,4 +99,3 @@ Future<Uint8List> transcodeToCompatibleMp4(
   // Fallback: original bytes if transcode fails.
   return originalBytes;
 }
-
