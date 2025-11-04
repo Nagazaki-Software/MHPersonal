@@ -1,6 +1,8 @@
 allprojects {
     repositories {
         google()
+        // Google-hosted mirror of Maven Central to avoid 404s from repo1.maven.org
+        maven { url 'https://maven-central.storage-download.googleapis.com/maven2/' }
         mavenCentral()
     }
 }
