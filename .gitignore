@@ -33,3 +33,8 @@ ios/Runner/GeneratedPluginRegistrant.*
 
 # Tooling (keep project tools/, but ignore temporary MinGit)
 tools/mingit/
+
+# Local environment files (secrets)
+.env
+.env.*
+firebase/functions/.env
