@@ -206,6 +206,8 @@ dependency_overrides:
   uuid: ^4.0.0
   ffmpeg_kit_flutter_full_gpl:
     path: plugins/ffmpeg_kit_flutter_full_gpl-6.0.3
+  flutter_vlc_player:
+    path: plugins/flutter_vlc_player-7.4.0
 
 dev_dependencies:
   flutter_launcher_icons: 0.13.1
