@@ -5,6 +5,17 @@ allprojects {
     }
 }
 
+// Force a resolvable version of ffmpeg-kit even if a plugin
+// requests an unavailable coordinate (e.g., 6.0-1.LTS).
+configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == 'com.arthenica' &&
+                details.requested.name == 'ffmpeg-kit-full-gpl') {
+            details.useVersion '6.0-2'
+        }
+    }
+}
+
 rootProject.buildDir = '../build'
 
 subprojects {
