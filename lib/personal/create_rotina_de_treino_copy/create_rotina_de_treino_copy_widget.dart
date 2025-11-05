@@ -2017,20 +2017,19 @@ class _CreateRotinaDeTreinoCopyWidgetState
                                                                     TreinorsRecord>>(
                                                               stream:
                                                                   queryTreinorsRecord(
-                                                                queryBuilder: (treinorsRecord) =>
-                                                                    treinorsRecord
-                                                                        .where(
-                                                                          'treinosNoLIst',
-                                                                          isEqualTo:
-                                                                              FFAppState().filtroAdmin,
-                                                                        )
-                                                                        .where(
-                                                                          'videoUrl',
-                                                                          isEqualTo:
+                                                                    queryBuilder: (treinorsRecord) =>
+                                                                        treinorsRecord
+                                                                            .where(
+                                                                              'treinosNoLIst',
+                                                                              isEqualTo:
+                                                                                  FFAppState().filtroAdmin,
+                                                                            )
+                                                                            .where(
+                                                                              'videoUrl',
+                                                                              isEqualTo:
                                                                                 null,
-                                                                          ),
-                                                                ),
-                                                              ),
+                                                                              ),
+                                                                    ),
                                                               builder: (context,
                                                                   snapshot) {
                                                                 // Customize what your widget looks like when it's loading.

@@ -38,3 +38,6 @@ tools/mingit/
 .env
 .env.*
 firebase/functions/.env
+
+# Firebase custom cloud functions dependencies
+firebase/custom_cloud_functions/node_modules/

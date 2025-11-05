@@ -332,10 +332,9 @@ packages:
   ffmpeg_kit_flutter_full_gpl:
     dependency: "direct main"
     description:
-      name: ffmpeg_kit_flutter_full_gpl
-      sha256: "4f269bcb636bfcb544e5b4d65c706a3d311839970cb42638e72406410c1b5b7b"
-      url: "https://pub.dev"
-    source: hosted
+      path: "plugins/ffmpeg_kit_flutter_full_gpl-6.0.3"
+      relative: true
+    source: path
     version: "6.0.3"
   ffmpeg_kit_flutter_platform_interface:
     dependency: transitive
@@ -716,10 +715,9 @@ packages:
   flutter_vlc_player:
     dependency: "direct main"
     description:
-      name: flutter_vlc_player
-      sha256: "3e4094a0f2c9d8d7017dd3d8c270694286672fada162185499339feefbf7b870"
-      url: "https://pub.dev"
-    source: hosted
+      path: "plugins/flutter_vlc_player-7.4.0"
+      relative: true
+    source: path
     version: "7.4.0"
   flutter_vlc_player_platform_interface:
     dependency: transitive
