@@ -127,7 +127,7 @@ class _StripeSubscriptionWidgetState extends State<StripeSubscriptionWidget> {
 
     try {
       final response = await http.post(
-        url,
+        Uri.parse('https://southamerica-east1-profissions-2746d.cloudfunctions.net/createInscricao'),
         headers: {'Content-Type': 'application/json'},
         // Ajuste o corpo conforme a função backend espera!
         body: jsonEncode({

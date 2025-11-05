@@ -16,7 +16,8 @@ class VlcAdapterController {
           options: VlcPlayerOptions(
             // Increase network caching for stability on mobile networks.
             advanced: VlcAdvancedOptions([
-              VlcAdvancedOptions.networkCaching(1000),
+              // Slightly higher cache to reduce stalls on high-bitrate videos.
+              VlcAdvancedOptions.networkCaching(2000),
             ]),
             video: VlcVideoOptions([
               // Drop late frames to keep playback stable.

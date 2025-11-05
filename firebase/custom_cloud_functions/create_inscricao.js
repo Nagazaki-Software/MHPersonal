@@ -8,7 +8,16 @@ const stripeSecret =
   process.env.STRIPE_SECRET_KEY ||
   (functions.config && functions.config().stripe && functions.config().stripe.secret) ||
   "";
-
+        // Cria ephemeral key (opcional, útil para mobile PaymentSheet)
+        let ephemeralKey;
+        try {
+          ephemeralKey = await stripe.ephemeralKeys.create(
+            { customer: customer.id },
+            { apiVersion: "2020-08-27" },
+          );
+        } catch (e) {
+          console.warn("Falha ao criar Ephemeral Key:", e?.message || e);
+        }
 if (!stripeSecret) {
   console.warn(
     "Stripe secret key not found. Set STRIPE_SECRET_KEY env var or functions.config().stripe.secret"
@@ -107,6 +116,7 @@ exports.createInscricao = functions
           subscriptionId: subscription.id, // ID da Assinatura
           clientSecret: clientSecret, // Client Secret para confirmar 1º pagamento
           customerId: customer.id, // ID do Cliente criado/encontrado
+          ephemeralKey: ephemeralKey && ephemeralKey.secret,
         });
       } catch (err) {
         // Usando 'err' e mesma estrutura do catch

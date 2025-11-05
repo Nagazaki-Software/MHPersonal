@@ -1,4 +1,5 @@
 import 'package:chewie/chewie.dart';
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -62,6 +63,7 @@ class _FlutterFlowVideoPlayerState extends State<FlutterFlowVideoPlayer>
   bool _subscribedRoute = false;
   bool _isFullScreen = false;
   bool _useVlc = false;
+  Timer? _androidStallFallbackTimer;
 
   @override
   void initState() {
@@ -123,6 +125,8 @@ class _FlutterFlowVideoPlayerState extends State<FlutterFlowVideoPlayer>
     _vlcController?.dispose();
     _vlcController = null;
     _useVlc = false;
+    _androidStallFallbackTimer?.cancel();
+    _androidStallFallbackTimer = null;
   }
 
   Future _initializePlayer() async {
@@ -155,6 +159,34 @@ class _FlutterFlowVideoPlayerState extends State<FlutterFlowVideoPlayer>
           } catch (_) {}
         }
       }
+    }
+
+    // Android-only: if video starts but stalls (common with 4K codecs),
+    // auto-fallback to VLC after a short grace period.
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android &&
+        widget.videoType == VideoType.network && vlc.vlcAvailable && !_useVlc) {
+      // Give ExoPlayer a few seconds to actually start rendering frames.
+      _androidStallFallbackTimer?.cancel();
+      _androidStallFallbackTimer = Timer(const Duration(seconds: 6), () async {
+        // If not playing or position very small, consider it a stall and fallback to VLC.
+        final ctrl = _videoPlayerController;
+        if (!mounted || ctrl == null) return;
+        final value = ctrl.value;
+        final hasStarted = value.isPlaying || (value.position > const Duration(seconds: 0));
+        if (!hasStarted && !_useVlc) {
+          try {
+            _disposeCurrentPlayer();
+            _vlcController = vlc.createVlcController(
+              widget.path,
+              autoPlay: widget.autoPlay,
+              looping: widget.looping,
+            );
+            if (mounted) setState(() => _useVlc = true);
+          } catch (_) {
+            // Keep current controller if VLC init fails
+          }
+        }
+      });
     }
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController!,
