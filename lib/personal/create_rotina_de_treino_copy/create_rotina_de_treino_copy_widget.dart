@@ -98,8 +98,8 @@ class _CreateRotinaDeTreinoCopyWidgetState
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return FutureBuilder<UsersRecord>(
-      future: UsersRecord.getDocumentOnce(widget!.users!),
+    return StreamBuilder<UsersRecord>(
+      stream: UsersRecord.getDocument(widget!.users!),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -326,8 +326,8 @@ class _CreateRotinaDeTreinoCopyWidgetState
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                child: FutureBuilder<CreateTreinosRecord>(
-                                  future: CreateTreinosRecord.getDocumentOnce(
+                                child: StreamBuilder<CreateTreinosRecord>(
+                                  stream: CreateTreinosRecord.getDocument(
                                       widget!.treino!),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
@@ -869,26 +869,22 @@ class _CreateRotinaDeTreinoCopyWidgetState
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      FutureBuilder<
+                                                      StreamBuilder<
                                                           List<TreinorsRecord>>(
-                                                        future: FFAppState()
-                                                            .cacheAllTreinos(
-                                                          requestFn: () =>
-                                                              queryTreinorsRecordOnce(
-                                                            queryBuilder:
-                                                                (treinorsRecord) =>
-                                                                    treinorsRecord
-                                                                        .where(
-                                                                          'treinosNoLIst',
-                                                                          isEqualTo:
-                                                                              FFAppState().filtroAdmin,
-                                                                        )
-                                                                        .where(
-                                                                          'videoUrl',
-                                                                          isEqualTo:
-                                                                              null,
-                                                                        ),
-                                                          ),
+                                                        stream: queryTreinorsRecord(
+                                                          queryBuilder:
+                                                              (treinorsRecord) =>
+                                                                  treinorsRecord
+                                                                      .where(
+                                                                        'treinosNoLIst',
+                                                                        isEqualTo:
+                                                                            FFAppState().filtroAdmin,
+                                                                      )
+                                                                      .where(
+                                                                        'videoUrl',
+                                                                        isEqualTo:
+                                                                            null,
+                                                                      ),
                                                         ),
                                                         builder: (context,
                                                             snapshot) {
@@ -1058,10 +1054,10 @@ class _CreateRotinaDeTreinoCopyWidgetState
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      FutureBuilder<
+                                                      StreamBuilder<
                                                           List<TreinorsRecord>>(
-                                                        future:
-                                                            queryTreinorsRecordOnce(),
+                                                        stream:
+                                                            queryTreinorsRecord(),
                                                         builder: (context,
                                                             snapshot) {
                                                           // Customize what your widget looks like when it's loading.
@@ -1421,9 +1417,9 @@ class _CreateRotinaDeTreinoCopyWidgetState
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           250.0, 90.0, 250.0, 0.0),
-                                      child: FutureBuilder<CreateTreinosRecord>(
-                                        future:
-                                            CreateTreinosRecord.getDocumentOnce(
+                                      child: StreamBuilder<CreateTreinosRecord>(
+                                        stream:
+                                            CreateTreinosRecord.getDocument(
                                                 widget!.treino!),
                                         builder: (context, snapshot) {
                                           // Customize what your widget looks like when it's loading.
@@ -2016,23 +2012,21 @@ class _CreateRotinaDeTreinoCopyWidgetState
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            FutureBuilder<
+                                                            StreamBuilder<
                                                                 List<
                                                                     TreinorsRecord>>(
-                                                              future: FFAppState()
-                                                                  .cacheAllTreinos(
-                                                                requestFn: () =>
-                                                                    queryTreinorsRecordOnce(
-                                                                  queryBuilder: (treinorsRecord) =>
-                                                                      treinorsRecord
-                                                                          .where(
-                                                                            'treinosNoLIst',
-                                                                            isEqualTo:
-                                                                                FFAppState().filtroAdmin,
-                                                                          )
-                                                                          .where(
-                                                                            'videoUrl',
-                                                                            isEqualTo:
+                                                              stream:
+                                                                  queryTreinorsRecord(
+                                                                queryBuilder: (treinorsRecord) =>
+                                                                    treinorsRecord
+                                                                        .where(
+                                                                          'treinosNoLIst',
+                                                                          isEqualTo:
+                                                                              FFAppState().filtroAdmin,
+                                                                        )
+                                                                        .where(
+                                                                          'videoUrl',
+                                                                          isEqualTo:
                                                                                 null,
                                                                           ),
                                                                 ),
@@ -2196,11 +2190,11 @@ class _CreateRotinaDeTreinoCopyWidgetState
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            FutureBuilder<
+                                                            StreamBuilder<
                                                                 List<
                                                                     TreinorsRecord>>(
-                                                              future:
-                                                                  queryTreinorsRecordOnce(),
+                                                              stream:
+                                                                  queryTreinorsRecord(),
                                                               builder: (context,
                                                                   snapshot) {
                                                                 // Customize what your widget looks like when it's loading.

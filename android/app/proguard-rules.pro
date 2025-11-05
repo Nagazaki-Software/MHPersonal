@@ -17,6 +17,11 @@
 -dontwarn com.stripe.android.pushProvisioning.PushProvisioningActivityStarter
 -dontwarn com.stripe.android.pushProvisioning.PushProvisioningEphemeralKeyProvider
 
+# Keep VLC and FFmpegKit classes to avoid R8 stripping or obfuscation issues.
+-keep class org.videolan.** { *; }
+-dontwarn org.videolan.**
+-keep class com.arthenica.** { *; }
+-dontwarn com.arthenica.**
 
 
 

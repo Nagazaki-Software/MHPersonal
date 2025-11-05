@@ -9,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'todos_os_usuarios_model.dart';
 export 'todos_os_usuarios_model.dart';
 
@@ -344,8 +345,8 @@ class _TodosOsUsuariosWidgetState extends State<TodosOsUsuariosWidget> {
                                 ),
                               ),
                             ),
-                            FutureBuilder<List<UsersRecord>>(
-                              future: queryUsersRecordOnce(),
+                            StreamBuilder<List<UsersRecord>>(
+                              stream: queryUsersRecord(),
                               builder: (context, snapshot) {
                                 // Customize what your widget looks like when it's loading.
                                 if (!snapshot.hasData) {
@@ -422,12 +423,36 @@ class _TodosOsUsuariosWidgetState extends State<TodosOsUsuariosWidget> {
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(25.0),
-                                                        child: Image.network(
-                                                          listViewUsersRecord
-                                                              .photoUrl,
+                                                        child: CachedNetworkImage(
+                                                          imageUrl:
+                                                              listViewUsersRecord
+                                                                  .photoUrl,
                                                           width: 50.0,
                                                           height: 50.0,
                                                           fit: BoxFit.cover,
+                                                          placeholder: (context,
+                                                                  url) =>
+                                                              Center(
+                                                            child: SizedBox(
+                                                              width: 24.0,
+                                                              height: 24.0,
+                                                              child:
+                                                                  SpinKitFadingFour(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .customColor3,
+                                                                size: 24.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Icon(
+                                                            Icons.person,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryText,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),

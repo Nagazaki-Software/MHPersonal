@@ -2008,10 +2008,10 @@ class _AdmindashboardWidgetState extends State<AdmindashboardWidget>
                                                                   0.0,
                                                                   0.0,
                                                                   8.0),
-                                                      child: FutureBuilder<
+                                                      child: StreamBuilder<
                                                           List<UsersRecord>>(
-                                                        future:
-                                                            queryUsersRecordOnce(
+                                                        stream:
+                                                            queryUsersRecord(
                                                           queryBuilder:
                                                               (usersRecord) =>
                                                                   usersRecord
@@ -2575,10 +2575,10 @@ Personal: */
                                                           ),
                                                         ),
                                                       ),
-                                                      FutureBuilder<
+                                                      StreamBuilder<
                                                           List<UsersRecord>>(
-                                                        future:
-                                                            queryUsersRecordOnce(
+                                                        stream:
+                                                            queryUsersRecord(
                                                           limit: 8,
                                                         ),
                                                         builder: (context,

@@ -265,8 +265,8 @@ class _AgendamentosWidgetState extends State<AgendamentosWidget> {
                                         ),
                                         child: Padding(
                                           padding: EdgeInsets.all(12.0),
-                                          child: FutureBuilder<UsersRecord>(
-                                            future: UsersRecord.getDocumentOnce(
+                                          child: StreamBuilder<UsersRecord>(
+                                            stream: UsersRecord.getDocument(
                                                 agendamentosItem.user!),
                                             builder: (context, snapshot) {
                                               // Customize what your widget looks like when it's loading.
@@ -721,8 +721,8 @@ class _AgendamentosWidgetState extends State<AgendamentosWidget> {
                                         ),
                                         child: Padding(
                                           padding: EdgeInsets.all(12.0),
-                                          child: FutureBuilder<UsersRecord>(
-                                            future: UsersRecord.getDocumentOnce(
+                                          child: StreamBuilder<UsersRecord>(
+                                            stream: UsersRecord.getDocument(
                                                 agendamentosItem.user!),
                                             builder: (context, snapshot) {
                                               // Customize what your widget looks like when it's loading.

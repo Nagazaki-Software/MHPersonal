@@ -58,8 +58,8 @@ class _IniciarTreinoAlunoCopyWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<CreateTreinosRecord>(
-      future: CreateTreinosRecord.getDocumentOnce(widget!.createTreinos!),
+    return StreamBuilder<CreateTreinosRecord>(
+      stream: CreateTreinosRecord.getDocument(widget!.createTreinos!),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {

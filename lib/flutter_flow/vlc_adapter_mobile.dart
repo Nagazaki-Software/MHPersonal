@@ -3,15 +3,25 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 
+// Allow disabling VLC at runtime for troubleshooting with --dart-define=DISABLE_VLC=true
+const bool _disableVlc = bool.fromEnvironment('DISABLE_VLC', defaultValue: false);
+
 class VlcAdapterController {
   VlcAdapterController.network(String url, {bool autoPlay = false, bool looping = false})
       : _controller = VlcPlayerController.network(
           url,
-          hwAcc: HwAcc.full,
+          // Use automatic hardware accel to avoid device-specific crashes.
+          hwAcc: HwAcc.auto,
           autoPlay: autoPlay,
           options: VlcPlayerOptions(
-            advanced: VlcAdvancedOptions([VlcAdvancedOptions.networkCaching(200)]),
-            video: VlcVideoOptions([if (looping) VlcVideoOptions.dropLateFrames(false)]),
+            // Increase network caching for stability on mobile networks.
+            advanced: VlcAdvancedOptions([
+              VlcAdvancedOptions.networkCaching(1000),
+            ]),
+            video: VlcVideoOptions([
+              // Drop late frames to keep playback stable.
+              VlcVideoOptions.dropLateFrames(true),
+            ]),
           ),
         );
 
@@ -25,7 +35,7 @@ class VlcAdapterController {
   }
 }
 
-bool get vlcAvailable => !kIsWeb; // IO platforms only
+bool get vlcAvailable => !kIsWeb && !_disableVlc; // IO platforms only
 
 VlcAdapterController createVlcController(
   String url, {

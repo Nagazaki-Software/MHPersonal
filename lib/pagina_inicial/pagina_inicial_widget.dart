@@ -165,8 +165,8 @@ class _PaginaInicialWidgetState extends State<PaginaInicialWidget>
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return FutureBuilder<List<UsersRecord>>(
-      future: queryUsersRecordOnce(
+    return StreamBuilder<List<UsersRecord>>(
+      stream: queryUsersRecord(
         singleRecord: true,
       ),
       builder: (context, snapshot) {

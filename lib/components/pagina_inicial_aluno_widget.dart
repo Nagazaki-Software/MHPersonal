@@ -180,8 +180,8 @@ class _PaginaInicialAlunoWidgetState extends State<PaginaInicialAlunoWidget>
                   child: Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 24.0),
-                    child: FutureBuilder<List<CreateTreinosRecord>>(
-                      future: queryCreateTreinosRecordOnce(
+                    child: StreamBuilder<List<CreateTreinosRecord>>(
+                      stream: queryCreateTreinosRecord(
                         parent: currentUserReference,
                         singleRecord: true,
                       ),
@@ -849,8 +849,8 @@ na porta de... */
                                   ),
                             ),
                           ),
-                          FutureBuilder<List<CreateTreinosRecord>>(
-                            future: queryCreateTreinosRecordOnce(
+                          StreamBuilder<List<CreateTreinosRecord>>(
+                            stream: queryCreateTreinosRecord(
                               parent: currentUserReference,
                             ),
                             builder: (context, snapshot) {

@@ -64,8 +64,8 @@ class _ProfiledopersonalWidgetState extends State<ProfiledopersonalWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<UsersRecord>(
-      future: UsersRecord.getDocumentOnce(widget!.user!),
+    return StreamBuilder<UsersRecord>(
+      stream: UsersRecord.getDocument(widget!.user!),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -1322,10 +1322,10 @@ class _ProfiledopersonalWidgetState extends State<ProfiledopersonalWidget> {
                                                                   CrossAxisAlignment
                                                                       .start,
                                                               children: [
-                                                                FutureBuilder<
+                                                                StreamBuilder<
                                                                     UsersRecord>(
-                                                                  future: UsersRecord
-                                                                      .getDocumentOnce(
+                                                                  stream: UsersRecord
+                                                                      .getDocument(
                                                                           avPersonalItem
                                                                               .user!),
                                                                   builder: (context,

@@ -1595,10 +1595,10 @@ class _GerenciamentodealunosWidgetState
                                                 final usersgerencimentoItem =
                                                     usersgerencimento[
                                                         usersgerencimentoIndex];
-                                                return FutureBuilder<
+                                                return StreamBuilder<
                                                     UsersRecord>(
-                                                  future: UsersRecord
-                                                      .getDocumentOnce(
+                                                  stream: UsersRecord
+                                                      .getDocument(
                                                           usersgerencimentoItem),
                                                   builder: (context, snapshot) {
                                                     // Customize what your widget looks like when it's loading.
@@ -3301,10 +3301,10 @@ class _GerenciamentodealunosWidgetState
                                                 final usersgerencimentoItem =
                                                     usersgerencimento[
                                                         usersgerencimentoIndex];
-                                                return FutureBuilder<
+                                                return StreamBuilder<
                                                     UsersRecord>(
-                                                  future: UsersRecord
-                                                      .getDocumentOnce(
+                                                  stream: UsersRecord
+                                                      .getDocument(
                                                           usersgerencimentoItem),
                                                   builder: (context, snapshot) {
                                                     // Customize what your widget looks like when it's loading.

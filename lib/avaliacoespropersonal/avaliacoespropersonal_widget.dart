@@ -1157,12 +1157,12 @@ class _AvaliacoespropersonalWidgetState
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          FutureBuilder<
+                                                          StreamBuilder<
                                                               UsersRecord>(
-                                                            future: UsersRecord
-                                                                .getDocumentOnce(
-                                                                    avaliacoesItem
-                                                                        .user!),
+                                                            stream: UsersRecord
+                                                                .getDocument(
+                                                                avaliacoesItem
+                                                                    .user!),
                                                             builder: (context,
                                                                 snapshot) {
                                                               // Customize what your widget looks like when it's loading.
@@ -2410,10 +2410,10 @@ class _AvaliacoespropersonalWidgetState
                                                               MainAxisAlignment
                                                                   .spaceBetween,
                                                           children: [
-                                                            FutureBuilder<
+                                                            StreamBuilder<
                                                                 UsersRecord>(
-                                                              future: UsersRecord
-                                                                  .getDocumentOnce(
+                                                              stream: UsersRecord
+                                                                  .getDocument(
                                                                       avaliacoesItem
                                                                           .user!),
                                                               builder: (context,

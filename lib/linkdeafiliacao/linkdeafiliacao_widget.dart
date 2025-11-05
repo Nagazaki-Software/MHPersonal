@@ -1659,9 +1659,9 @@ class _LinkdeafiliacaoWidgetState extends State<LinkdeafiliacaoWidget> {
                                                   ].divide(
                                                       SizedBox(height: 16.0)),
                                                 ),
-                                                FutureBuilder<UsersRecord>(
-                                                  future: UsersRecord
-                                                      .getDocumentOnce(
+                                                StreamBuilder<UsersRecord>(
+                                                  stream: UsersRecord
+                                                      .getDocument(
                                                           linkdeafiliacaoPersonalAccountRecord!
                                                               .parentReference),
                                                   builder: (context, snapshot) {
@@ -3492,9 +3492,9 @@ class _LinkdeafiliacaoWidgetState extends State<LinkdeafiliacaoWidget> {
                                                   ].divide(
                                                       SizedBox(height: 16.0)),
                                                 ),
-                                                FutureBuilder<UsersRecord>(
-                                                  future: UsersRecord
-                                                      .getDocumentOnce(
+                                                StreamBuilder<UsersRecord>(
+                                                  stream: UsersRecord
+                                                      .getDocument(
                                                           linkdeafiliacaoPersonalAccountRecord!
                                                               .parentReference),
                                                   builder: (context, snapshot) {

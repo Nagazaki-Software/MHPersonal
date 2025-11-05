@@ -204,8 +204,8 @@ class _AbaDeFeedbackWidgetState extends State<AbaDeFeedbackWidget> {
                           context: context,
                           desktop: false,
                         ))
-                          FutureBuilder<List<FeedbackRecord>>(
-                            future: queryFeedbackRecordOnce(
+                          StreamBuilder<List<FeedbackRecord>>(
+                            stream: queryFeedbackRecord(
                               queryBuilder: (feedbackRecord) => feedbackRecord
                                   .where(
                                     'codigoDoPersonal',
@@ -1072,10 +1072,10 @@ rotina de tr... */
                                               Align(
                                                 alignment: AlignmentDirectional(
                                                     1.0, -1.0),
-                                                child: FutureBuilder<
+                                                child: StreamBuilder<
                                                     List<FeedbackRecord>>(
-                                                  future:
-                                                      queryFeedbackRecordOnce(
+                                                  stream:
+                                                      queryFeedbackRecord(
                                                     queryBuilder:
                                                         (feedbackRecord) =>
                                                             feedbackRecord

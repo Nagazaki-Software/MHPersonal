@@ -108,8 +108,8 @@ class _AvaliacoesPersonalWidgetState extends State<AvaliacoesPersonalWidget> {
                       context: context,
                       desktop: false,
                     ))
-                      FutureBuilder<UsersRecord>(
-                        future: UsersRecord.getDocumentOnce(widget!.cliente!),
+                      StreamBuilder<UsersRecord>(
+                        stream: UsersRecord.getDocument(widget!.cliente!),
                         builder: (context, snapshot) {
                           // Customize what your widget looks like when it's loading.
                           if (!snapshot.hasData) {
@@ -460,8 +460,8 @@ class _AvaliacoesPersonalWidgetState extends State<AvaliacoesPersonalWidget> {
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     400.0, 90.0, 400.0, 0.0),
-                                child: FutureBuilder<UsersRecord>(
-                                  future: UsersRecord.getDocumentOnce(
+                                child: StreamBuilder<UsersRecord>(
+                                  stream: UsersRecord.getDocument(
                                       widget!.cliente!),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.

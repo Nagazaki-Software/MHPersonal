@@ -469,8 +469,8 @@ class _HeaderwebWidgetState extends State<HeaderwebWidget> {
                                 (conversasAtivasIndex) {
                               final conversasAtivasItem =
                                   conversasAtivas[conversasAtivasIndex];
-                              return FutureBuilder<List<InChatRecord>>(
-                                future: queryInChatRecordOnce(
+                              return StreamBuilder<List<InChatRecord>>(
+                                stream: queryInChatRecord(
                                   parent: conversasAtivasItem,
                                   singleRecord: true,
                                 ),
@@ -563,9 +563,9 @@ class _HeaderwebWidgetState extends State<HeaderwebWidget> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    FutureBuilder<UsersRecord>(
-                                                      future: UsersRecord
-                                                          .getDocumentOnce(
+                                                    StreamBuilder<UsersRecord>(
+                                                      stream: UsersRecord
+                                                          .getDocument(
                                                               containerInChatRecord!
                                                                   .aluno!),
                                                       builder:

@@ -111,8 +111,8 @@ class _ConversaChatWidgetState extends State<ConversaChatWidget> {
                             print('IconButton pressed ...');
                           },
                         ),
-                        title: FutureBuilder<List<UsersRecord>>(
-                          future: queryUsersRecordOnce(
+                        title: StreamBuilder<List<UsersRecord>>(
+                          stream: queryUsersRecord(
                             singleRecord: true,
                           ),
                           builder: (context, snapshot) {

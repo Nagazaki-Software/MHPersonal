@@ -794,15 +794,10 @@ class _AdminPageWidgetState extends State<AdminPageWidget>
                                             );
                                           },
                                         ),
-                                        FutureBuilder<List<UsersRecord>>(
-                                          future: (_model
-                                                      .firestoreRequestCompleter2 ??=
-                                                  Completer<List<UsersRecord>>()
-                                                    ..complete(
-                                                        queryUsersRecordOnce(
-                                                      singleRecord: true,
-                                                    )))
-                                              .future,
+                                        StreamBuilder<List<UsersRecord>>(
+                                          stream: queryUsersRecord(
+                                            singleRecord: true,
+                                          ),
                                           builder: (context, snapshot) {
                                             // Customize what your widget looks like when it's loading.
                                             if (!snapshot.hasData) {

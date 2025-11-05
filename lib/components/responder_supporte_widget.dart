@@ -91,8 +91,8 @@ class _ResponderSupporteWidgetState extends State<ResponderSupporteWidget>
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<SupporteRecord>(
-      future: SupporteRecord.getDocumentOnce(widget!.supporte!),
+    return StreamBuilder<SupporteRecord>(
+      stream: SupporteRecord.getDocument(widget!.supporte!),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {

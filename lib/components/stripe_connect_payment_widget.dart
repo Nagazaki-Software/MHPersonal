@@ -76,8 +76,8 @@ class _StripeConnectPaymentWidgetState
         Opacity(
           opacity: 0.0,
           child: AuthUserStreamWidget(
-            builder: (context) => FutureBuilder<List<PersonalAccountRecord>>(
-              future: queryPersonalAccountRecordOnce(
+            builder: (context) => StreamBuilder<List<PersonalAccountRecord>>(
+              stream: queryPersonalAccountRecord(
                 parent: widget!.users,
                 singleRecord: true,
               ),
