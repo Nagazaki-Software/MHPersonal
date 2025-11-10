@@ -56,6 +56,19 @@ class FlutterFlowVideoPlayer extends StatefulWidget {
 
 class _FlutterFlowVideoPlayerState extends State<FlutterFlowVideoPlayer>
     with RouteAware {
+
+  bool get _shouldPreferVlcForFirebaseStorage {
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+      return false;
+    }
+    if (widget.videoType != VideoType.network || !vlc.vlcAvailable) {
+      return false;
+    }
+    final url = widget.path.toLowerCase();
+    return url.contains('firebasestorage.googleapis.com') ||
+        url.contains('storage.googleapis.com');
+  }
+
   VideoPlayerController? _videoPlayerController;
   ChewieController? _chewieController;
   vlc.VlcAdapterController? _vlcController;
@@ -130,6 +143,23 @@ class _FlutterFlowVideoPlayerState extends State<FlutterFlowVideoPlayer>
   }
 
   Future _initializePlayer() async {
+    if (_shouldPreferVlcForFirebaseStorage) {
+      try {
+        _vlcController = vlc.createVlcController(
+          widget.path,
+          autoPlay: widget.autoPlay,
+          looping: widget.looping,
+        );
+        _useVlc = true;
+        if (mounted) {
+          setState(() {});
+        }
+      } catch (_) {
+        // Fall back to the normal video player if VLC fails.
+      }
+      return;
+    }
+
     _videoPlayerController = widget.videoType == VideoType.network
         ? VideoPlayerController.networkUrl(Uri.parse(widget.path!))
         : VideoPlayerController.asset(widget.path);
