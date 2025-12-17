@@ -8,7 +8,7 @@ import 'package:ffmpeg_kit_flutter_full_gpl/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter_full_gpl/return_code.dart';
 
 // Transcodes an input video file to an Android-friendly MP4 (H.264/AAC),
-// downscaling to max 720p when necessary. Returns the output bytes.
+// downscaling to max 1080p when necessary. Returns the output bytes.
 Future<Uint8List> transcodeToCompatibleMp4(
   String inputPath,
   Uint8List originalBytes,
@@ -19,7 +19,7 @@ Future<Uint8List> transcodeToCompatibleMp4(
   int? height;
   String? vcodec;
 
-  const int maxHeight = 720;
+  const int maxHeight = 1080;
 
   try {
     final probeSession = await FFprobeKit.getMediaInformation(inputPath);

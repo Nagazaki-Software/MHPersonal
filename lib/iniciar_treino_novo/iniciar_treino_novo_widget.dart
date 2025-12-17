@@ -255,8 +255,14 @@ class _IniciarTreinoNovoWidgetState extends State<IniciarTreinoNovoWidget> {
                                         child: Stack(
                                           children: [
                                             FlutterFlowVideoPlayer(
-                                              path: containerTreinorsRecord!
-                                                  .videoUrl,
+                                              path: (isAndroid &&
+                                                      containerTreinorsRecord!
+                                                          .videoUrl1080
+                                                          .isNotEmpty)
+                                                  ? containerTreinorsRecord
+                                                      .videoUrl1080
+                                                  : containerTreinorsRecord
+                                                      !.videoUrl,
                                               videoType: VideoType.network,
                                               width: double.infinity,
                                               height: double.infinity,

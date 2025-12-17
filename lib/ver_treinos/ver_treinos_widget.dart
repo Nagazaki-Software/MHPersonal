@@ -1045,8 +1045,14 @@ class _VerTreinosWidgetState extends State<VerTreinosWidget> {
                                                               ),
                                                               child:
                                                                   FlutterFlowVideoPlayer(
-                                                                path: columnTreinorsRecord!
-                                                                    .videoUrl,
+                                                                path: (isAndroid &&
+                                                                        columnTreinorsRecord!
+                                                                            .videoUrl1080
+                                                                            .isNotEmpty)
+                                                                    ? columnTreinorsRecord
+                                                                        .videoUrl1080
+                                                                    : columnTreinorsRecord
+                                                                        !.videoUrl,
                                                                 videoType:
                                                                     VideoType
                                                                         .network,
@@ -2084,8 +2090,14 @@ class _VerTreinosWidgetState extends State<VerTreinosWidget> {
                                                                       ),
                                                                       child:
                                                                           FlutterFlowVideoPlayer(
-                                                                        path: columnTreinorsRecord!
-                                                                            .videoUrl,
+                                                                        path: (isAndroid &&
+                                                                                columnTreinorsRecord!
+                                                                                    .videoUrl1080
+                                                                                    .isNotEmpty)
+                                                                            ? columnTreinorsRecord
+                                                                                .videoUrl1080
+                                                                            : columnTreinorsRecord
+                                                                                !.videoUrl,
                                                                         videoType:
                                                                             VideoType.network,
                                                                         width:
