@@ -1455,6 +1455,13 @@ class _MeuProgressoVAlunoWidgetState extends State<MeuProgressoVAlunoWidget> {
                                                 ? columnCreateTreinosRecordList
                                                     .first
                                                 : null;
+                                        final seriesRepList =
+                                            _model.seriesREP ??
+                                                const <SeriesRepeticoesRecord>[];
+                                        final mediaCarga =
+                                            functions.mediaDeCarga(
+                                          seriesRepList.toList(),
+                                        );
 
                                         return Column(
                                           mainAxisSize: MainAxisSize.max,
@@ -1621,11 +1628,7 @@ class _MeuProgressoVAlunoWidgetState extends State<MeuProgressoVAlunoWidget> {
                                                 ),
                                                 Text(
                                                   valueOrDefault<String>(
-                                                    functions
-                                                        .mediaDeCarga(_model
-                                                            .seriesREP!
-                                                            .toList())
-                                                        .toString(),
+                                                    mediaCarga?.toString(),
                                                     '0',
                                                   ),
                                                   style: FlutterFlowTheme.of(
@@ -1676,17 +1679,13 @@ class _MeuProgressoVAlunoWidgetState extends State<MeuProgressoVAlunoWidget> {
                                                 max: 100.0,
                                                 value: _model.sliderValue2 ??=
                                                     valueOrDefault<double>(
-                                                  functions.mediaDeCarga(_model
-                                                      .seriesREP!
-                                                      .toList()),
+                                                  mediaCarga,
                                                   0.0,
                                                 ),
-                                                onChanged: (_model.seriesREP !=
-                                                            null &&
-                                                        (_model.seriesREP)!
-                                                            .isNotEmpty)
-                                                    ? null
-                                                    : (newValue) {
+                                                onChanged:
+                                                    seriesRepList.isNotEmpty
+                                                        ? null
+                                                        : (newValue) {
                                                         newValue = double.parse(
                                                             newValue
                                                                 .toStringAsFixed(

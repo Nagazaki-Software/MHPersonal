@@ -54,11 +54,16 @@ Future<List<SelectedFile>?> selectMediaWithSourceBottomSheet({
   required bool allowPhoto,
   bool allowVideo = false,
   String pickerFontFamily = 'Roboto',
-  Color textColor = const Color(0xFF111417),
-  Color backgroundColor = const Color(0xFFF5F5F5),
+  Color? textColor,
+  Color? backgroundColor,
   bool includeDimensions = false,
   bool includeBlurHash = false,
 }) async {
+  final brightness = Theme.of(context).brightness;
+  final resolvedBackgroundColor =
+      backgroundColor ?? (brightness == Brightness.dark ? Colors.black : Colors.white);
+  final resolvedTextColor =
+      textColor ?? (brightness == Brightness.dark ? Colors.white : const Color(0xFF111417));
   final createUploadMediaListTile =
       (String label, MediaSource mediaSource) => ListTile(
             title: Text(
@@ -66,12 +71,12 @@ Future<List<SelectedFile>?> selectMediaWithSourceBottomSheet({
               textAlign: TextAlign.center,
               style: GoogleFonts.getFont(
                 pickerFontFamily,
-                color: textColor,
+                color: resolvedTextColor,
                 fontWeight: FontWeight.w600,
                 fontSize: 20,
               ),
             ),
-            tileColor: backgroundColor,
+            tileColor: resolvedBackgroundColor,
             dense: false,
             onTap: () => Navigator.pop(
               context,
@@ -80,7 +85,7 @@ Future<List<SelectedFile>?> selectMediaWithSourceBottomSheet({
           );
   final mediaSource = await showModalBottomSheet<MediaSource>(
       context: context,
-      backgroundColor: backgroundColor,
+      backgroundColor: resolvedBackgroundColor,
       builder: (context) {
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -96,12 +101,12 @@ Future<List<SelectedFile>?> selectMediaWithSourceBottomSheet({
                     textAlign: TextAlign.center,
                     style: GoogleFonts.getFont(
                       pickerFontFamily,
-                      color: textColor.applyAlpha(0.65),
+                      color: resolvedTextColor.applyAlpha(0.65),
                       fontWeight: FontWeight.w500,
                       fontSize: 20,
                     ),
                   ),
-                  tileColor: backgroundColor,
+                  tileColor: resolvedBackgroundColor,
                   dense: false,
                 ),
               ),

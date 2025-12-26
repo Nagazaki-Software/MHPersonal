@@ -456,9 +456,10 @@ class _IniciarTreinoAlunoCopyWidgetState
                                               List<TreinorsRecord>>(
                                             stream: queryTreinorsRecord(
                                               queryBuilder: (treinorsRecord) =>
+                                                  // Usa o nome salvo no treino para buscar o vídeo (mais compatível com os dados antigos do aluno).
                                                   treinorsRecord.where(
-                                                'treinos',
-                                                arrayContains: treinosItem,
+                                                'treinosNoLIst',
+                                                isEqualTo: treinosItem,
                                               ),
                                               singleRecord: true,
                                             ),

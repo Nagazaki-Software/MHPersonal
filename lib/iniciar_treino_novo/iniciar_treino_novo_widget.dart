@@ -198,9 +198,10 @@ class _IniciarTreinoNovoWidgetState extends State<IniciarTreinoNovoWidget> {
                               StreamBuilder<List<TreinorsRecord>>(
                                 stream: queryTreinorsRecord(
                                   queryBuilder: (treinorsRecord) =>
+                                      // Tenta primeiro pelo array de treinos vinculados ao aluno.
                                       treinorsRecord.where(
-                                    'treinosNoLIst',
-                                    isEqualTo: widget!.treino,
+                                    'treinos',
+                                    arrayContains: widget!.treino,
                                   ),
                                   singleRecord: true,
                                 ),
@@ -222,60 +223,49 @@ class _IniciarTreinoNovoWidgetState extends State<IniciarTreinoNovoWidget> {
                                   List<TreinorsRecord>
                                       containerTreinorsRecordList =
                                       snapshot.data!;
-                                  // Return an empty Container when the item does not exist.
-                                  if (snapshot.data!.isEmpty) {
-                                    return Container();
-                                  }
                                   final containerTreinorsRecord =
-                                      containerTreinorsRecordList.isNotEmpty
-                                          ? containerTreinorsRecordList.first
-                                          : null;
+                                      containerTreinorsRecordList.firstOrNull;
 
-                                  return Material(
-                                    color: Colors.transparent,
-                                    elevation: 2.0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(0.0),
-                                    ),
-                                    child: Container(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          1.0,
-                                      height: 400.0,
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        borderRadius:
-                                            BorderRadius.circular(0.0),
+                                  if (containerTreinorsRecord != null) {
+                                    return _VideoSection(
+                                      record: containerTreinorsRecord,
+                                    );
+                                  }
+
+                                  // Fallback: se não encontrar no array, procura pelo nome em treinosNoLIst.
+                                  return StreamBuilder<List<TreinorsRecord>>(
+                                    stream: queryTreinorsRecord(
+                                      queryBuilder: (treinorsRecord) =>
+                                          treinorsRecord.where(
+                                        'treinosNoLIst',
+                                        isEqualTo: widget!.treino,
                                       ),
-                                      child: Container(
-                                        width: double.infinity,
-                                        height:
-                                            MediaQuery.sizeOf(context).height *
-                                                0.47,
-                                        child: Stack(
-                                          children: [
-                                            FlutterFlowVideoPlayer(
-                                              path: (isAndroid &&
-                                                      containerTreinorsRecord!
-                                                          .videoUrl1080
-                                                          .isNotEmpty)
-                                                  ? containerTreinorsRecord
-                                                      .videoUrl1080
-                                                  : containerTreinorsRecord
-                                                      !.videoUrl,
-                                              videoType: VideoType.network,
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                              autoPlay: false,
-                                              looping: true,
-                                              showControls: true,
-                                              allowFullScreen: true,
-                                              allowPlaybackSpeedMenu: false,
+                                      singleRecord: true,
+                                    ),
+                                    builder: (context, altSnapshot) {
+                                      if (!altSnapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 50.0,
+                                            height: 50.0,
+                                            child: SpinKitFadingFour(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .customColor3,
+                                              size: 50.0,
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                          ),
+                                        );
+                                      }
+                                      final fallbackRecord =
+                                          altSnapshot.data!.firstOrNull;
+                                      if (fallbackRecord == null) {
+                                        return Container();
+                                      }
+                                      return _VideoSection(
+                                        record: fallbackRecord,
+                                      );
+                                    },
                                   );
                                 },
                               ),
@@ -1719,6 +1709,52 @@ class _IniciarTreinoNovoWidgetState extends State<IniciarTreinoNovoWidget> {
               ),
             ));
       },
+    );
+  }
+}
+
+class _VideoSection extends StatelessWidget {
+  const _VideoSection({required this.record});
+
+  final TreinorsRecord record;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      elevation: 2.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(0.0),
+      ),
+      child: Container(
+        width: MediaQuery.sizeOf(context).width * 1.0,
+        height: 400.0,
+        decoration: BoxDecoration(
+          color: FlutterFlowTheme.of(context).secondaryBackground,
+          borderRadius: BorderRadius.circular(0.0),
+        ),
+        child: Container(
+          width: double.infinity,
+          height: MediaQuery.sizeOf(context).height * 0.47,
+          child: Stack(
+            children: [
+              FlutterFlowVideoPlayer(
+                path: (isAndroid && record.videoUrl1080.isNotEmpty)
+                    ? record.videoUrl1080
+                    : record.videoUrl,
+                videoType: VideoType.network,
+                width: double.infinity,
+                height: double.infinity,
+                autoPlay: false,
+                looping: true,
+                showControls: true,
+                allowFullScreen: true,
+                allowPlaybackSpeedMenu: false,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

@@ -1283,13 +1283,13 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                           mainAxisSize: MainAxisSize.max,
                                                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                           children: [
-                                                                                            Align(
-                                                                                              alignment: AlignmentDirectional(-1.0, 0.0),
+                                                                                            Expanded(
                                                                                               child: Padding(
                                                                                                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
                                                                                                 child: AutoSizeText(
                                                                                                   treItem,
                                                                                                   maxLines: 2,
+                                                                                                  overflow: TextOverflow.ellipsis,
                                                                                                   style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                                         font: GoogleFonts.plusJakartaSans(
                                                                                                           fontWeight: FontWeight.w600,
@@ -2451,22 +2451,30 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                               ),
                                                             ),
                                                           );
-                                                        }
-                                                        List<TreinorsRecord>
-                                                            dropDownTreinorsRecordList =
-                                                            snapshot.data!;
+                                                         }
+                                                         List<TreinorsRecord>
+                                                             dropDownTreinorsRecordList =
+                                                             snapshot.data!;
+                                                         final dropDownOptions = dropDownTreinorsRecordList
+                                                             .map((e) => e.treinosNoLIst)
+                                                             .where((name) => name.isNotEmpty)
+                                                             .toList();
+                                                         if (_model.dropDownValue1 == null &&
+                                                             dropDownOptions.isNotEmpty) {
+                                                           _model.dropDownValue1 =
+                                                               dropDownOptions.first;
+                                                         }
+                                                         _model.dropDownValueController1 ??= FormFieldController<String>(
+                                                             _model.dropDownValue1);
+                                                         _model.dropDownValueController1?.value =
+                                                             _model.dropDownValue1;
 
-                                                        return FlutterFlowDropDown<
-                                                            String>(
-                                                          controller: _model
-                                                                  .dropDownValueController1 ??=
-                                                              FormFieldController<
-                                                                  String>(null),
-                                                          options:
-                                                              dropDownTreinorsRecordList
-                                                                  .map((e) => e
-                                                                      .treinosNoLIst)
-                                                                  .toList(),
+                                                         return FlutterFlowDropDown<
+                                                             String>(
+                                                           controller: _model
+                                                               .dropDownValueController1,
+                                                           options:
+                                                               dropDownOptions,
                                                           onChanged: (val) =>
                                                               safeSetState(() =>
                                                                   _model.dropDownValue1 =
@@ -2614,6 +2622,9 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                 'PAINEL_ADMINISTRATIVO_DO_PERSONAL_ADICIO');
                                                             logFirebaseEvent(
                                                                 'Button_backend_call');
+                                                            if ((_model.dropDownValue1 ?? '').isEmpty) {
+                                                              return;
+                                                            }
 
                                                             await widget!
                                                                 .createTreinos!
@@ -4603,13 +4614,13 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                                           mainAxisSize: MainAxisSize.max,
                                                                                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                                           children: [
-                                                                                                            Align(
-                                                                                                              alignment: AlignmentDirectional(-1.0, 0.0),
+                                                                                                            Expanded(
                                                                                                               child: Padding(
                                                                                                                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
                                                                                                                 child: AutoSizeText(
                                                                                                                   trerereItem,
                                                                                                                   maxLines: 2,
+                                                                                                                  overflow: TextOverflow.ellipsis,
                                                                                                                   style: FlutterFlowTheme.of(context).bodyLarge.override(
                                                                                                                         font: GoogleFonts.plusJakartaSans(
                                                                                                                           fontWeight: FontWeight.w600,
@@ -5544,13 +5555,25 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                         size: 50.0,
                                                                                       ),
                                                                                     ),
-                                                                                  );
+                                                                                 );
                                                                                 }
                                                                                 List<TreinorsRecord> dropDownTreinorsRecordList = snapshot.data!;
+                                                                                final dropDownOptions = dropDownTreinorsRecordList
+                                                                                    .map((e) => e.treinosNoLIst)
+                                                                                    .where((name) => name.isNotEmpty)
+                                                                                    .toList();
+                                                                                if (_model.dropDownValue4 == null &&
+                                                                                    dropDownOptions.isNotEmpty) {
+                                                                                  _model.dropDownValue4 = dropDownOptions.first;
+                                                                                }
+                                                                                _model.dropDownValueController4 ??=
+                                                                                    FormFieldController<String>(_model.dropDownValue4);
+                                                                                _model.dropDownValueController4?.value =
+                                                                                    _model.dropDownValue4;
 
                                                                                 return FlutterFlowDropDown<String>(
-                                                                                  controller: _model.dropDownValueController4 ??= FormFieldController<String>(null),
-                                                                                  options: dropDownTreinorsRecordList.map((e) => e.treinosNoLIst).toList(),
+                                                                                  controller: _model.dropDownValueController4,
+                                                                                  options: dropDownOptions,
                                                                                   onChanged: (val) => safeSetState(() => _model.dropDownValue4 = val),
                                                                                   width: 300.0,
                                                                                   height: 40.0,
@@ -5616,6 +5639,9 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                   onPressed: () async {
                                                                                     logFirebaseEvent('PAINEL_ADMINISTRATIVO_DO_PERSONAL_ADICIO');
                                                                                     logFirebaseEvent('Button_backend_call');
+                                                                                    if ((_model.dropDownValue4 ?? '').isEmpty) {
+                                                                                      return;
+                                                                                    }
 
                                                                                     await widget!.createTreinos!.update({
                                                                                       ...mapToFirestore(

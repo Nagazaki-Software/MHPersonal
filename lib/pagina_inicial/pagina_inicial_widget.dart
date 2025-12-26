@@ -87,8 +87,11 @@ class _PaginaInicialWidgetState extends State<PaginaInicialWidget>
         singleRecord: true,
       ).then((s) => s.firstOrNull);
       logFirebaseEvent('PaginaInicial_update_app_state');
-      FFAppState().addToEntrounoappdia(currentUserDocument!.lastActiveTime!);
-      FFAppState().update(() {});
+      if (currentUserDocument?.lastActiveTime != null) {
+        FFAppState()
+            .addToEntrounoappdia(currentUserDocument!.lastActiveTime!);
+        FFAppState().update(() {});
+      }
       if ((valueOrDefault<bool>(currentUserDocument?.professorAccount, false) ==
               true) &&
           (_model.queryPersonal?.reference == null)) {

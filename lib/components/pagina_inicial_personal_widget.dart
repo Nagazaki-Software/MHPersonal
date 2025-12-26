@@ -205,7 +205,7 @@ class _PaginaInicialPersonalWidgetState
                                               children: [
                                                 Flexible(
                                                   child: Text(
-                                                    'Olá, ${columnPersonalAccountRecord?.displayName} seu código de personal é ${columnPersonalAccountRecord?.codigoPersonal.toString()}',
+                                                    'Olá, ${valueOrDefault<String>(columnPersonalAccountRecord?.displayName, 'personal')} seu código de personal é ${valueOrDefault<String>(columnPersonalAccountRecord?.codigoPersonal?.toString(), '')}',
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyMedium
@@ -235,7 +235,10 @@ class _PaginaInicialPersonalWidgetState
                                               ],
                                             ),
                                             GradientText(
-                                              widget!.parameter4!,
+                                              valueOrDefault<String>(
+                                                widget.parameter4,
+                                                '',
+                                              ),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodyMedium
@@ -466,6 +469,22 @@ class _PaginaInicialPersonalWidgetState
                                                   }
                                                   final columnSaldoConnectedResponse =
                                                       snapshot.data!;
+                                                  final availableCents =
+                                                      BancodedadosGroup
+                                                          .saldoConnectedCall
+                                                          .avaliable(
+                                                            columnSaldoConnectedResponse
+                                                                .jsonBody,
+                                                          ) ??
+                                                          0;
+                                                  final pendingCents =
+                                                      BancodedadosGroup
+                                                          .saldoConnectedCall
+                                                          .pending(
+                                                            columnSaldoConnectedResponse
+                                                                .jsonBody,
+                                                          ) ??
+                                                          0;
 
                                                   return InkWell(
                                                     splashColor:
@@ -546,16 +565,12 @@ class _PaginaInicialPersonalWidgetState
                                                           ].divide(SizedBox(
                                                               width: 8.0)),
                                                         ),
-                                                        Text(
+                                                         Text(
                                                           formatNumber(
                                                             functions.consertarValorStripe(
-                                                                BancodedadosGroup
-                                                                    .saldoConnectedCall
-                                                                    .avaliable(
-                                                                      columnSaldoConnectedResponse
-                                                                          .jsonBody,
-                                                                    )!
-                                                                    .toDouble()),
+                                                              availableCents
+                                                                  .toDouble(),
+                                                            ),
                                                             formatType:
                                                                 FormatType
                                                                     .decimal,
@@ -593,16 +608,12 @@ class _PaginaInicialPersonalWidgetState
                                                                     .fontStyle,
                                                               ),
                                                         ),
-                                                        Text(
+                                                         Text(
                                                           'Pendente: ${formatNumber(
                                                             functions.consertarValorStripe(
-                                                                BancodedadosGroup
-                                                                    .saldoConnectedCall
-                                                                    .pending(
-                                                                      columnSaldoConnectedResponse
-                                                                          .jsonBody,
-                                                                    )!
-                                                                    .toDouble()),
+                                                              pendingCents
+                                                                  .toDouble(),
+                                                            ),
                                                             formatType:
                                                                 FormatType
                                                                     .decimal,
@@ -1245,25 +1256,26 @@ Assinatura */
                         updateCallback: () => safeSetState(() {}),
                         child: BaxeiOApppWidget(),
                       ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: wrapWithModel(
-                            model: _model.codigodeafiliacaoModel,
-                            updateCallback: () => safeSetState(() {}),
-                            child: CodigodeafiliacaoWidget(
-                              codigoDoPersonal: columnPersonalAccountRecord!
-                                  .codigoPersonal
-                                  .toString(),
-                              referencePersonal:
-                                  columnPersonalAccountRecord!.reference,
+                    if (columnPersonalAccountRecord != null)
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: wrapWithModel(
+                              model: _model.codigodeafiliacaoModel,
+                              updateCallback: () => safeSetState(() {}),
+                              child: CodigodeafiliacaoWidget(
+                                codigoDoPersonal: columnPersonalAccountRecord!
+                                    .codigoPersonal
+                                    .toString(),
+                                referencePersonal:
+                                    columnPersonalAccountRecord!.reference,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
                     if (!valueOrDefault<bool>(
                         currentUserDocument?.assinatura, false))
                       AuthUserStreamWidget(
@@ -1594,13 +1606,14 @@ Recentes */
                                                                             ),
                                                                       ),
                                                                       Text(
-                                                                        dateTimeFormat(
-                                                                          "d/M/y",
-                                                                          listViewUsersRecord
-                                                                              .createdTime!,
-                                                                          locale:
-                                                                              FFLocalizations.of(context).languageCode,
-                                                                        ),
+                                                                        listViewUsersRecord.createdTime !=
+                                                                                null
+                                                                            ? dateTimeFormat(
+                                                                                "d/M/y",
+                                                                                listViewUsersRecord.createdTime!,
+                                                                                locale: FFLocalizations.of(context).languageCode,
+                                                                              )
+                                                                            : 'Sem data',
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .bodySmall
                                                                             .override(
