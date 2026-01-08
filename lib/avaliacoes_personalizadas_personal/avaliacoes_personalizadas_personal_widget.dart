@@ -1,5 +1,4 @@
 import '/backend/backend.dart';
-import '/auth/firebase_auth/auth_util.dart';
 import '/components/headerweb_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -38,8 +37,6 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
   late AvaliacoesPersonalizadasPersonalModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  Object? _lastQueryError;
-  bool _loggedEmptyState = false;
 
   @override
   void initState() {
@@ -49,156 +46,7 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
 
     logFirebaseEvent('screen_view',
         parameters: {'screen_name': 'avaliacoesPersonalizadasPersonal'});
-    debugPrint(
-      '[AvaliacoesPersonalizadasPersonal] open users=${widget.users?.path ?? 'null'} currentUserUid=$currentUserUid',
-    );
-    logFirebaseEvent('avPers_list_open', parameters: {
-      'users': widget.users?.path ?? 'null',
-      'currentUserUid': currentUserUid,
-    });
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
-  }
-
-  void _logEmptyOnce() {
-    if (_loggedEmptyState) return;
-    _loggedEmptyState = true;
-    debugPrint(
-      '[AvaliacoesPersonalizadasPersonal] empty users=${widget.users?.path ?? 'null'} currentUserUid=$currentUserUid',
-    );
-    logFirebaseEvent('avPers_list_empty', parameters: {
-      'users': widget.users?.path ?? 'null',
-      'currentUserUid': currentUserUid,
-    });
-  }
-
-  void _logErrorOnce(Object error, StackTrace? stack) {
-    if (_lastQueryError == error) return;
-    _lastQueryError = error;
-    debugPrint(
-      '[AvaliacoesPersonalizadasPersonal] error users=${widget.users?.path ?? 'null'} currentUserUid=$currentUserUid error=$error',
-    );
-    if (stack != null) {
-      debugPrint(stack.toString());
-    }
-    logFirebaseEvent('avPers_list_error', parameters: {
-      'users': widget.users?.path ?? 'null',
-      'currentUserUid': currentUserUid,
-      'error': error.toString(),
-    });
-  }
-
-  Widget _buildEmptyState(BuildContext context) {
-    _logEmptyOnce();
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Nenhuma avaliação personalizada encontrada.',
-              textAlign: TextAlign.center,
-              style: FlutterFlowTheme.of(context).bodyMedium,
-            ),
-            const SizedBox(height: 12.0),
-            FFButtonWidget(
-              onPressed: widget.users == null
-                  ? null
-                  : () async {
-                      logFirebaseEvent('avPers_list_empty_create');
-                      context.pushNamed(
-                        AvaliacaoPersonalizadaTWidget.routeName,
-                        queryParameters: {
-                          'users': serializeParam(
-                            widget.users,
-                            ParamType.DocumentReference,
-                          ),
-                        }.withoutNulls,
-                      );
-                    },
-              text: 'Criar avaliação',
-              options: FFButtonOptions(
-                height: 44.0,
-                padding: const EdgeInsetsDirectional.fromSTEB(
-                    16.0, 0.0, 16.0, 0.0),
-                color: FlutterFlowTheme.of(context).primary,
-                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      font: GoogleFonts.readexPro(
-                        fontWeight:
-                            FlutterFlowTheme.of(context).titleSmall.fontWeight,
-                        fontStyle:
-                            FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                      ),
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
-                      letterSpacing: 0.0,
-                      fontWeight:
-                          FlutterFlowTheme.of(context).titleSmall.fontWeight,
-                      fontStyle:
-                          FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                    ),
-                borderSide: const BorderSide(
-                  color: Colors.transparent,
-                  width: 1.0,
-                ),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildErrorState(BuildContext context, Object error) {
-    final isPermissionDenied =
-        error is FirebaseException && error.code == 'permission-denied';
-    final title = isPermissionDenied
-        ? 'Sem permissão para carregar as avaliações.'
-        : 'Erro ao carregar as avaliações.';
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: FlutterFlowTheme.of(context).bodyMedium,
-            ),
-            if (kDebugMode) ...[
-              const SizedBox(height: 8.0),
-              Text(
-                'users=${widget.users?.path ?? 'null'}\n$error',
-                textAlign: TextAlign.center,
-                style: FlutterFlowTheme.of(context).bodySmall,
-              ),
-            ],
-            const SizedBox(height: 12.0),
-            FFButtonWidget(
-              onPressed: () async {
-                logFirebaseEvent('avPers_list_error_retry');
-                safeSetState(() {});
-              },
-              text: 'Tentar novamente',
-              options: FFButtonOptions(
-                height: 44.0,
-                padding: const EdgeInsetsDirectional.fromSTEB(
-                    16.0, 0.0, 16.0, 0.0),
-                color: FlutterFlowTheme.of(context).secondaryBackground,
-                textStyle: FlutterFlowTheme.of(context).titleSmall,
-                borderSide: BorderSide(
-                  color: FlutterFlowTheme.of(context).primary,
-                  width: 1.0,
-                ),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   @override
@@ -322,29 +170,9 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
                                   child: StreamBuilder<
                                       List<AvaliacaoPersonalizadaRecord>>(
                                     stream: queryAvaliacaoPersonalizadaRecord(
-                                      parent: widget.users,
-                                      queryBuilder: (q) => q.orderBy(
-                                        'dataDaAvaliacao',
-                                        descending: true,
-                                      ),
+                                      parent: widget!.users,
                                     ),
                                     builder: (context, snapshot) {
-                                      if (widget.users == null) {
-                                        return _buildErrorState(
-                                          context,
-                                          StateError('users is null'),
-                                        );
-                                      }
-                                      if (snapshot.hasError) {
-                                        _logErrorOnce(
-                                          snapshot.error!,
-                                          snapshot.stackTrace,
-                                        );
-                                        return _buildErrorState(
-                                          context,
-                                          snapshot.error!,
-                                        );
-                                      }
                                       // Customize what your widget looks like when it's loading.
                                       if (!snapshot.hasData) {
                                         return Center(
@@ -363,10 +191,6 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
                                       List<AvaliacaoPersonalizadaRecord>
                                           columnAvaliacaoPersonalizadaRecordList =
                                           snapshot.data!;
-                                      if (columnAvaliacaoPersonalizadaRecordList
-                                          .isEmpty) {
-                                        return _buildEmptyState(context);
-                                      }
 
                                       return SingleChildScrollView(
                                         child: Column(
@@ -392,12 +216,16 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
                                                       'AVALIACOES_PERSONALIZADAS_PERSONAL_Conta');
                                                   logFirebaseEvent(
                                                       'Container_navigate_to');
+                                                  if (Navigator.of(context)
+                                                      .canPop()) {
+                                                    context.pop();
+                                                  }
                                                   context.pushNamed(
                                                     AvPersonalizadaWidget
                                                         .routeName,
                                                     queryParameters: {
                                                       'users': serializeParam(
-                                                        widget.users,
+                                                        widget!.users,
                                                         ParamType
                                                             .DocumentReference,
                                                       ),
@@ -459,12 +287,7 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
                                                               children: [
                                                                 Text(
                                                                   columnAvaliacaoPersonalizadaRecord
-                                                                          .nomeDaAvaliacao
-                                                                          .trim()
-                                                                          .isEmpty
-                                                                      ? 'Avaliação sem nome'
-                                                                      : columnAvaliacaoPersonalizadaRecord
-                                                                          .nomeDaAvaliacao,
+                                                                      .nomeDaAvaliacao,
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .headlineSmall
@@ -491,38 +314,14 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
                                                                       ),
                                                                 ),
                                                                 Text(
-                                                                  (() {
-                                                                    final dateStr =
-                                                                        dateTimeFormat(
-                                                                      "d/M/y",
-                                                                      columnAvaliacaoPersonalizadaRecord
-                                                                          .dataDaAvaliacao,
-                                                                      locale: FFLocalizations.of(
-                                                                              context)
-                                                                          .languageCode,
-                                                                    );
-                                                                    final categoria =
-                                                                        columnAvaliacaoPersonalizadaRecord
-                                                                            .categoriaDaAvaliacao
-                                                                            .trim();
-                                                                    final parts =
-                                                                        <String>[];
-                                                                    if (dateStr
-                                                                        .isNotEmpty) {
-                                                                      parts.add(
-                                                                          dateStr);
-                                                                    }
-                                                                    if (categoria
-                                                                        .isNotEmpty) {
-                                                                      parts.add(
-                                                                          categoria);
-                                                                    }
-                                                                    return parts
-                                                                            .isEmpty
-                                                                        ? 'Sem data/categoria'
-                                                                        : parts.join(
-                                                                            ' - ');
-                                                                  })(),
+                                                                  '${dateTimeFormat(
+                                                                    "d/M/y",
+                                                                    columnAvaliacaoPersonalizadaRecord
+                                                                        .dataDaAvaliacao,
+                                                                    locale: FFLocalizations.of(
+                                                                            context)
+                                                                        .languageCode,
+                                                                  )} - ${columnAvaliacaoPersonalizadaRecord.categoriaDaAvaliacao}',
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodySmall
@@ -853,26 +652,9 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
                           child:
                               StreamBuilder<List<AvaliacaoPersonalizadaRecord>>(
                             stream: queryAvaliacaoPersonalizadaRecord(
-                              parent: widget.users,
-                              queryBuilder: (q) => q.orderBy(
-                                'dataDaAvaliacao',
-                                descending: true,
-                              ),
+                              parent: widget!.users,
                             ),
                             builder: (context, snapshot) {
-                              if (widget.users == null) {
-                                return _buildErrorState(
-                                  context,
-                                  StateError('users is null'),
-                                );
-                              }
-                              if (snapshot.hasError) {
-                                _logErrorOnce(
-                                  snapshot.error!,
-                                  snapshot.stackTrace,
-                                );
-                                return _buildErrorState(context, snapshot.error!);
-                              }
                               // Customize what your widget looks like when it's loading.
                               if (!snapshot.hasData) {
                                 return Center(
@@ -890,10 +672,6 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
                               List<AvaliacaoPersonalizadaRecord>
                                   columnAvaliacaoPersonalizadaRecordList =
                                   snapshot.data!;
-                              if (columnAvaliacaoPersonalizadaRecordList
-                                  .isEmpty) {
-                                return _buildEmptyState(context);
-                              }
 
                               return SingleChildScrollView(
                                 child: Column(
@@ -917,11 +695,14 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
                                               'AVALIACOES_PERSONALIZADAS_PERSONAL_Conta');
                                           logFirebaseEvent(
                                               'Container_navigate_to');
+                                          if (Navigator.of(context).canPop()) {
+                                            context.pop();
+                                          }
                                           context.pushNamed(
                                             AvPersonalizadaWidget.routeName,
                                             queryParameters: {
                                               'users': serializeParam(
-                                                widget.users,
+                                                widget!.users,
                                                 ParamType.DocumentReference,
                                               ),
                                               'avPersonalizad': serializeParam(
@@ -973,12 +754,7 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
                                                       children: [
                                                         Text(
                                                           columnAvaliacaoPersonalizadaRecord
-                                                                  .nomeDaAvaliacao
-                                                                  .trim()
-                                                                  .isEmpty
-                                                              ? 'Avaliação sem nome'
-                                                              : columnAvaliacaoPersonalizadaRecord
-                                                                  .nomeDaAvaliacao,
+                                                              .nomeDaAvaliacao,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .headlineSmall
@@ -1011,36 +787,14 @@ class _AvaliacoesPersonalizadasPersonalWidgetState
                                                               ),
                                                         ),
                                                         Text(
-                                                          (() {
-                                                            final dateStr =
-                                                                dateTimeFormat(
-                                                              "d/M/y",
-                                                              columnAvaliacaoPersonalizadaRecord
-                                                                  .dataDaAvaliacao,
-                                                              locale: FFLocalizations
-                                                                      .of(context)
-                                                                  .languageCode,
-                                                            );
-                                                            final categoria =
-                                                                columnAvaliacaoPersonalizadaRecord
-                                                                    .categoriaDaAvaliacao
-                                                                    .trim();
-                                                            final parts =
-                                                                <String>[];
-                                                            if (dateStr
-                                                                .isNotEmpty) {
-                                                              parts.add(dateStr);
-                                                            }
-                                                            if (categoria
-                                                                .isNotEmpty) {
-                                                              parts.add(
-                                                                  categoria);
-                                                            }
-                                                            return parts.isEmpty
-                                                                ? 'Sem data/categoria'
-                                                                : parts.join(
-                                                                    ' - ');
-                                                          })(),
+                                                          '${dateTimeFormat(
+                                                            "d/M/y",
+                                                            columnAvaliacaoPersonalizadaRecord
+                                                                .dataDaAvaliacao,
+                                                            locale: FFLocalizations
+                                                                    .of(context)
+                                                                .languageCode,
+                                                          )} - ${columnAvaliacaoPersonalizadaRecord.categoriaDaAvaliacao}',
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodySmall
