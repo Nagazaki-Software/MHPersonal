@@ -47,8 +47,28 @@ class AvaliacaoPersonalizadaRecord extends FirestoreRecord {
     _nomeDaAvaliacao = snapshotData['nomeDaAvaliacao'] as String?;
     _observacao = snapshotData['observacao'] as String?;
     _categoriaDaAvaliacao = snapshotData['categoriaDaAvaliacao'] as String?;
-    _dataDaAvaliacao = snapshotData['dataDaAvaliacao'] as DateTime?;
-    _terminou = snapshotData['terminou'] as bool?;
+    final dataDaAvaliacaoValue = snapshotData['dataDaAvaliacao'];
+    if (dataDaAvaliacaoValue is DateTime) {
+      _dataDaAvaliacao = dataDaAvaliacaoValue;
+    } else if (dataDaAvaliacaoValue is Timestamp) {
+      _dataDaAvaliacao = dataDaAvaliacaoValue.toDate();
+    } else if (dataDaAvaliacaoValue is String) {
+      _dataDaAvaliacao = DateTime.tryParse(dataDaAvaliacaoValue);
+    } else {
+      _dataDaAvaliacao = null;
+    }
+
+    final terminouValue = snapshotData['terminou'];
+    if (terminouValue is bool) {
+      _terminou = terminouValue;
+    } else if (terminouValue is num) {
+      _terminou = terminouValue != 0;
+    } else if (terminouValue is String) {
+      final v = terminouValue.trim().toLowerCase();
+      _terminou = v == 'true' || v == '1' || v == 'sim' || v == 'yes';
+    } else {
+      _terminou = null;
+    }
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>

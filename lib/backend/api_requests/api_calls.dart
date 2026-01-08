@@ -389,20 +389,12 @@ class GeminiApiCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "contents": [
-    {
-      "parts": [
-        {
-          "text": "${prompt}"
-        }
-      ]
-    }
-  ]
+  "prompt": "${escapeStringForJson(prompt)}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'GeminiApi',
       apiUrl:
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyBnezv5hxCpD6rZYZSRyGJSdKe4IXiWC1c',
+          'https://southamerica-east1-profissions-2746d.cloudfunctions.net/openrouterGenerateText',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -412,7 +404,7 @@ class GeminiApiCall {
       bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
-      decodeUtf8: false,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -422,11 +414,11 @@ class GeminiApiCall {
   static String? textoGerado(dynamic response) =>
       castToType<String>(getJsonField(
         response,
-        r'''$.candidates[:].content.parts[:].text''',
+        r'''$.text''',
       ));
   static List? parts(dynamic response) => getJsonField(
         response,
-        r'''$.candidates[:].content.parts''',
+        r'''$.usage''',
         true,
       ) as List?;
 }

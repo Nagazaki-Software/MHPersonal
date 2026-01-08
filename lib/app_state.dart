@@ -837,7 +837,7 @@ class FFAppState extends ChangeNotifier {
       _allRotinaManager.clearRequest(uniqueKey);
 
   final _cacheExercicioAlunoManager =
-      StreamRequestManager<List<TreinorsRecord>>();
+      StreamRequestManager<List<TreinorsRecord>>(50);
   Stream<List<TreinorsRecord>> cacheExercicioAluno({
     String? uniqueQueryKey,
     bool? overrideCache,

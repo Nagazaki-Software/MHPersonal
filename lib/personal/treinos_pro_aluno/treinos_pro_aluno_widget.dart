@@ -12,6 +12,7 @@ import 'dart:math';
 import 'dart:ui';
 import '/index.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -232,14 +233,26 @@ class _TreinosProAlunoWidgetState extends State<TreinosProAlunoWidget>
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(60.0),
-                                              child: Image.network(
-                                                valueOrDefault<String>(
+                                              child: CachedNetworkImage(
+                                                imageUrl: valueOrDefault<String>(
                                                   columnUsersRecord.photoUrl,
                                                   'https://wallpapers.com/images/hd/default-user-profile-icon-lemo857tj1b3io21.png',
                                                 ),
                                                 width: 80.0,
                                                 height: 80.0,
                                                 fit: BoxFit.cover,
+                                                memCacheWidth: 160,
+                                                memCacheHeight: 160,
+                                                placeholder: (context, url) =>
+                                                    Container(
+                                                  color: const Color(0xFFE0E3E7),
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(
+                                                  Icons.person,
+                                                  size: 40.0,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -1161,6 +1174,9 @@ class _TreinosProAlunoWidgetState extends State<TreinosProAlunoWidget>
                                         padding: EdgeInsets.zero,
                                         primary: false,
                                         shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        addAutomaticKeepAlives: false,
                                         scrollDirection: Axis.vertical,
                                         itemCount:
                                             listViewCreateTreinosRecordList
@@ -1609,9 +1625,11 @@ class _TreinosProAlunoWidgetState extends State<TreinosProAlunoWidget>
                                                               BorderRadius
                                                                   .circular(
                                                                       60.0),
-                                                          child: Image.network(
-                                                            valueOrDefault<
-                                                                String>(
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl:
+                                                                valueOrDefault<
+                                                                    String>(
                                                               columnUsersRecord
                                                                   .photoUrl,
                                                               'https://wallpapers.com/images/hd/default-user-profile-icon-lemo857tj1b3io21.png',
@@ -1619,6 +1637,20 @@ class _TreinosProAlunoWidgetState extends State<TreinosProAlunoWidget>
                                                             width: 80.0,
                                                             height: 80.0,
                                                             fit: BoxFit.cover,
+                                                            memCacheWidth: 160,
+                                                            memCacheHeight: 160,
+                                                            placeholder: (context,
+                                                                    url) =>
+                                                                Container(
+                                                              color: const Color(
+                                                                  0xFFE0E3E7),
+                                                            ),
+                                                            errorWidget: (context,
+                                                                    url, error) =>
+                                                                const Icon(
+                                                              Icons.person,
+                                                              size: 40.0,
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -2560,6 +2592,9 @@ class _TreinosProAlunoWidgetState extends State<TreinosProAlunoWidget>
                                                   padding: EdgeInsets.zero,
                                                   primary: false,
                                                   shrinkWrap: true,
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  addAutomaticKeepAlives: false,
                                                   scrollDirection:
                                                       Axis.vertical,
                                                   itemCount:

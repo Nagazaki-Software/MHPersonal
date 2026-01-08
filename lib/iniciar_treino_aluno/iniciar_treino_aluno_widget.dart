@@ -56,7 +56,8 @@ class _IniciarTreinoAlunoWidgetState extends State<IniciarTreinoAlunoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    final treinoConcluidoHoje =
+        context.select<FFAppState, List<String>>((s) => s.treinoconcluidohoje);
 
     return StreamBuilder<CreateTreinosRecord>(
       stream: CreateTreinosRecord.getDocument(widget!.createTreinos!),
@@ -457,10 +458,13 @@ class _IniciarTreinoAlunoWidgetState extends State<IniciarTreinoAlunoWidget> {
                                         padding: EdgeInsets.zero,
                                         primary: false,
                                         shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        addAutomaticKeepAlives: false,
                                         scrollDirection: Axis.vertical,
                                         itemCount: treinos.length,
                                         separatorBuilder: (_, __) =>
-                                            SizedBox(height: 10.0),
+                                            const SizedBox(height: 10.0),
                                         itemBuilder: (context, treinosIndex) {
                                           final treinosItem =
                                               treinos[treinosIndex];
@@ -468,6 +472,8 @@ class _IniciarTreinoAlunoWidgetState extends State<IniciarTreinoAlunoWidget> {
                                               List<TreinorsRecord>>(
                                             stream: FFAppState()
                                                 .cacheExercicioAluno(
+                                              uniqueQueryKey:
+                                                  'treinor_by_$treinosItem',
                                               requestFn: () =>
                                                   queryTreinorsRecord(
                                                 queryBuilder:
@@ -565,8 +571,7 @@ class _IniciarTreinoAlunoWidgetState extends State<IniciarTreinoAlunoWidget> {
                                                                             ),
                                                                       ),
                                                                     ),
-                                                                    if (FFAppState()
-                                                                        .treinoconcluidohoje
+                                                                    if (treinoConcluidoHoje
                                                                         .contains(
                                                                             treinosItem))
                                                                       Icon(

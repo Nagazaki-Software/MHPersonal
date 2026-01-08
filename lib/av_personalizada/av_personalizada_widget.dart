@@ -1,4 +1,5 @@
 import '/backend/backend.dart';
+import '/auth/firebase_auth/auth_util.dart';
 import '/components/perguntas_copy_widget.dart';
 import '/components/perguntas_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -241,16 +242,53 @@ class _AvPersonalizadaWidgetState extends State<AvPersonalizadaWidget> {
                                         PerguntasDasAvaliacoesPersonalizadasRecord>>(
                                   stream:
                                       queryPerguntasDasAvaliacoesPersonalizadasRecord(
-                                    parent: widget!.users,
+                                    parent: widget.users,
                                     queryBuilder:
                                         (perguntasDasAvaliacoesPersonalizadasRecord) =>
                                             perguntasDasAvaliacoesPersonalizadasRecord
                                                 .where(
                                       'uidDaAvaliacao',
-                                      isEqualTo: widget!.avPersonalizad?.id,
+                                      isEqualTo: widget.avPersonalizad?.id,
                                     ),
                                   ),
                                   builder: (context, snapshot) {
+                                    if (widget.users == null ||
+                                        widget.avPersonalizad == null) {
+                                      debugPrint(
+                                        '[AvPersonalizada] missing params users=${widget.users?.path ?? 'null'} avPersonalizad=${widget.avPersonalizad?.path ?? 'null'} currentUserUid=$currentUserUid',
+                                      );
+                                      return Center(
+                                        child: Text(
+                                          'Dados da avaliação não informados.',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium,
+                                        ),
+                                      );
+                                    }
+                                    if (snapshot.hasError) {
+                                      debugPrint(
+                                        '[AvPersonalizada] error loading perguntas users=${widget.users?.path} avPersonalizad=${widget.avPersonalizad?.path} error=${snapshot.error}',
+                                      );
+                                      logFirebaseEvent('avPers_perg_error',
+                                          parameters: {
+                                            'users': widget.users?.path,
+                                            'avPersonalizad':
+                                                widget.avPersonalizad?.path,
+                                            'error': snapshot.error.toString(),
+                                          });
+                                      return Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 24.0),
+                                          child: Text(
+                                            'Erro ao carregar as perguntas.',
+                                            textAlign: TextAlign.center,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium,
+                                          ),
+                                        ),
+                                      );
+                                    }
                                     // Customize what your widget looks like when it's loading.
                                     if (!snapshot.hasData) {
                                       return Center(
@@ -268,6 +306,27 @@ class _AvPersonalizadaWidgetState extends State<AvPersonalizadaWidget> {
                                     List<PerguntasDasAvaliacoesPersonalizadasRecord>
                                         columnPerguntasDasAvaliacoesPersonalizadasRecordList =
                                         snapshot.data!;
+                                    if (columnPerguntasDasAvaliacoesPersonalizadasRecordList
+                                        .isEmpty) {
+                                      logFirebaseEvent('avPers_perg_empty',
+                                          parameters: {
+                                            'users': widget.users?.path,
+                                            'avPersonalizad':
+                                                widget.avPersonalizad?.path,
+                                          });
+                                      return Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 24.0),
+                                          child: Text(
+                                            'Nenhuma pergunta cadastrada ainda.',
+                                            textAlign: TextAlign.center,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium,
+                                          ),
+                                        ),
+                                      );
+                                    }
 
                                     return Column(
                                       mainAxisSize: MainAxisSize.max,

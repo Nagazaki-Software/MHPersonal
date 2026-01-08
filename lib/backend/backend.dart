@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../auth/firebase_auth/auth_util.dart';
@@ -1654,9 +1656,14 @@ Stream<List<T>> queryCollection<T>(
   if (limit > 0 || singleRecord) {
     query = query.limit(singleRecord ? 1 : limit);
   }
-  return query.snapshots().handleError((err) {
-    print('Error querying $collection: $err');
-  }).map((s) => s.docs
+  return query
+      .snapshots()
+      .transform(StreamTransformer<QuerySnapshot, QuerySnapshot>.fromHandlers(
+          handleError: (err, stack, sink) {
+        print('Error querying $collection: $err');
+        sink.addError(err, stack);
+      }))
+      .map((s) => s.docs
       .map(
         (d) => safeGet(
           () => recordBuilder(d),

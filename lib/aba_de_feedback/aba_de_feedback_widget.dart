@@ -180,10 +180,8 @@ class _AbaDeFeedbackWidgetState extends State<AbaDeFeedbackWidget> {
                                 onPressed: () async {
                                   logFirebaseEvent(
                                       'ABA_DE_FEEDBACK_close_rounded_ICN_ON_TAP');
-                                  logFirebaseEvent('IconButton_navigate_to');
-
-                                  context
-                                      .goNamed(PaginaInicialWidget.routeName);
+                                  logFirebaseEvent('IconButton_close');
+                                  await Navigator.of(context).maybePop();
                                 },
                               ),
                             ),
@@ -753,24 +751,30 @@ class _AbaDeFeedbackWidgetState extends State<AbaDeFeedbackWidget> {
                               );
                             },
                           ),
-                        Align(
-                          alignment: AlignmentDirectional(-1.0, 0.0),
-                          child: Stack(
-                            alignment: AlignmentDirectional(-1.0, -1.0),
-                            children: [
-                              wrapWithModel(
-                                model: _model.headerwebModel,
-                                updateCallback: () => safeSetState(() {}),
-                                child: HeaderwebWidget(),
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 70.0, 0.0, 0.0),
-                                child: Stack(
-                                  children: [
-                                    Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
+                        if (responsiveVisibility(
+                          context: context,
+                          phone: false,
+                          tablet: false,
+                          tabletLandscape: false,
+                        ))
+                          Align(
+                            alignment: AlignmentDirectional(-1.0, 0.0),
+                            child: Stack(
+                              alignment: AlignmentDirectional(-1.0, -1.0),
+                              children: [
+                                wrapWithModel(
+                                  model: _model.headerwebModel,
+                                  updateCallback: () => safeSetState(() {}),
+                                  child: HeaderwebWidget(),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 70.0, 0.0, 0.0),
+                                   child: Stack(
+                                     children: [
+                                      Column(
+                                       mainAxisSize: MainAxisSize.max,
+                                       children: [
                                         Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
@@ -788,8 +792,9 @@ class _AbaDeFeedbackWidgetState extends State<AbaDeFeedbackWidget> {
                                                   logFirebaseEvent(
                                                       'ABA_DE_FEEDBACK_PAGE_Row_khibebmo_ON_TAP');
                                                   logFirebaseEvent(
-                                                      'Row_navigate_back');
-                                                  context.safePop();
+                                                      'Row_close');
+                                                  await Navigator.of(context)
+                                                      .maybePop();
                                                 },
                                                 child: Row(
                                                   mainAxisSize:

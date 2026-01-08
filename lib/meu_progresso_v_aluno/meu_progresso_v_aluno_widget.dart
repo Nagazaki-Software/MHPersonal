@@ -73,7 +73,9 @@ class _MeuProgressoVAlunoWidgetState extends State<MeuProgressoVAlunoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
+    final entrouNoAppDia =
+        context.select<FFAppState, List<DateTime>>((s) => s.entrounoappdia);
+    final frequenciaSemanal = functions.frequenciasemanal(entrouNoAppDia.toList());
 
     return Title(
         title: 'meuProgressoVAluno',
@@ -1738,12 +1740,7 @@ class _MeuProgressoVAlunoWidgetState extends State<MeuProgressoVAlunoWidget> {
                                                       ),
                                                 ),
                                                 Text(
-                                                  functions
-                                                      .frequenciasemanal(
-                                                          FFAppState()
-                                                              .entrounoappdia
-                                                              .toList())
-                                                      .toString(),
+                                                  frequenciaSemanal.toString(),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyLarge
@@ -1791,12 +1788,8 @@ class _MeuProgressoVAlunoWidgetState extends State<MeuProgressoVAlunoWidget> {
                                                 min: 0.0,
                                                 max: 7.0,
                                                 value: _model.sliderValue3 ??=
-                                                    functions.frequenciasemanal(
-                                                        FFAppState()
-                                                            .entrounoappdia
-                                                            .toList()),
-                                                onChanged: (FFAppState()
-                                                        .entrounoappdia
+                                                    frequenciaSemanal,
+                                                onChanged: (entrouNoAppDia
                                                         .isNotEmpty)
                                                     ? null
                                                     : (newValue) {

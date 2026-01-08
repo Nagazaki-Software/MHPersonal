@@ -84,9 +84,36 @@ class _PainelAdministrativoDoPersonalWidgetState
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
+    final clienteRef = widget.cliente;
+    final createTreinosRef = widget.createTreinos;
+    if (clienteRef == null || createTreinosRef == null) {
+      return Scaffold(
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        body: Center(
+          child: Text(
+            'Dados incompletos para abrir o painel.',
+            textAlign: TextAlign.center,
+            style: FlutterFlowTheme.of(context).bodyMedium,
+          ),
+        ),
+      );
+    }
+
     return StreamBuilder<UsersRecord>(
-      stream: UsersRecord.getDocument(widget!.cliente!),
+      stream: UsersRecord.getDocument(clienteRef),
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Scaffold(
+            backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+            body: Center(
+              child: Text(
+                'Erro ao carregar os dados.',
+                textAlign: TextAlign.center,
+                style: FlutterFlowTheme.of(context).bodyMedium,
+              ),
+            ),
+          );
+        }
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
           return Scaffold(
@@ -144,7 +171,7 @@ class _PainelAdministrativoDoPersonalWidgetState
                               TreinosProAlunoWidget.routeName,
                               queryParameters: {
                                 'cliente': serializeParam(
-                                  widget!.cliente,
+                                  clienteRef,
                                   ParamType.DocumentReference,
                                 ),
                               }.withoutNulls,
@@ -168,9 +195,18 @@ class _PainelAdministrativoDoPersonalWidgetState
                   child: StreamBuilder<CreateTreinosRecord>(
                     stream: FFAppState().allRotina(
                       requestFn: () => CreateTreinosRecord.getDocument(
-                          widget!.createTreinos!),
+                          createTreinosRef),
                     ),
                     builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text(
+                            'Erro ao carregar o treino.',
+                            textAlign: TextAlign.center,
+                            style: FlutterFlowTheme.of(context).bodyMedium,
+                          ),
+                        );
+                      }
                       // Customize what your widget looks like when it's loading.
                       if (!snapshot.hasData) {
                         return Center(
@@ -313,6 +349,7 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                             painelAdministrativoDoPersonalUsersRecord
                                                                 .displayName,
                                                             maxLines: 2,
+                                                            overflow: TextOverflow.ellipsis,
                                                             style: FlutterFlowTheme
                                                                     .of(context)
                                                                 .headlineSmall
@@ -346,6 +383,8 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                           Text(
                                                             painelAdministrativoDoPersonalUsersRecord
                                                                 .phoneNumber,
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
                                                             style: FlutterFlowTheme
                                                                     .of(context)
                                                                 .bodyMedium
@@ -655,35 +694,49 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                             'PAINEL_ADMINISTRATIVO_DO_PERSONAL_BAIXAR');
                                                         logFirebaseEvent(
                                                             'Button_firestore_query');
-                                                        _model.querySeriesList =
-                                                            await querySeriesRepeticoesRecordOnce(
-                                                          parent:
-                                                              widget!.cliente,
-                                                        );
-                                                        logFirebaseEvent(
-                                                            'Button_custom_action');
-                                                        _model.customPdf =
-                                                            await actions
-                                                                .generateAndUploadPdf(
-                                                          columnCreateTreinosRecord
-                                                              .nomeDoTreino,
-                                                          columnCreateTreinosRecord
-                                                              .treino
-                                                              .toList(),
-                                                          painelAdministrativoDoPersonalUsersRecord
-                                                              .displayName,
-                                                          currentUserDisplayName,
-                                                          getCurrentTimestamp,
-                                                          widget!.createTreinos!
-                                                              .id,
-                                                          _model
-                                                              .querySeriesList!
-                                                              .toList(),
-                                                        );
-                                                        logFirebaseEvent(
-                                                            'Button_launch_u_r_l');
-                                                        await launchURL(
-                                                            _model.customPdf!);
+                                                         _model.querySeriesList =
+                                                             await querySeriesRepeticoesRecordOnce(
+                                                           parent:
+                                                               clienteRef,
+                                                         );
+                                                         logFirebaseEvent(
+                                                             'Button_custom_action');
+                                                         _model.customPdf =
+                                                             await actions
+                                                                 .generateAndUploadPdf(
+                                                           columnCreateTreinosRecord
+                                                               .nomeDoTreino,
+                                                           columnCreateTreinosRecord
+                                                               .treino
+                                                               .toList(),
+                                                           painelAdministrativoDoPersonalUsersRecord
+                                                               .displayName,
+                                                           currentUserDisplayName,
+                                                           getCurrentTimestamp,
+                                                           createTreinosRef.id,
+                                                           (_model.querySeriesList ??
+                                                                   const [])
+                                                               .toList(),
+                                                         );
+                                                         logFirebaseEvent(
+                                                             'Button_launch_u_r_l');
+                                                         final pdfUrl =
+                                                             _model.customPdf;
+                                                         if (pdfUrl != null &&
+                                                             pdfUrl.isNotEmpty) {
+                                                           await launchURL(
+                                                               pdfUrl);
+                                                         } else {
+                                                           ScaffoldMessenger.of(
+                                                                   context)
+                                                               .showSnackBar(
+                                                             SnackBar(
+                                                               content: Text(
+                                                                 'Não foi possível gerar o PDF.',
+                                                               ),
+                                                             ),
+                                                           );
+                                                         }
 
                                                         safeSetState(() {});
                                                       },
@@ -1144,15 +1197,27 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                 ).then((s) => s.firstOrNull);
                                                                                 logFirebaseEvent('Container_backend_call');
 
-                                                                                await _model.querySeriesRep!.reference.update({
-                                                                                  ...mapToFirestore(
-                                                                                    {
-                                                                                      'treinos': FieldValue.arrayRemove([
-                                                                                        treItem
-                                                                                      ]),
-                                                                                    },
-                                                                                  ),
-                                                                                });
+                                                                                final seriesRecord =
+                                                                                    _model.querySeriesRep;
+                                                                                if (seriesRecord != null) {
+                                                                                  await seriesRecord.reference.update({
+                                                                                    ...mapToFirestore(
+                                                                                      {
+                                                                                        'treinos': FieldValue.arrayRemove([
+                                                                                          treItem
+                                                                                        ]),
+                                                                                      },
+                                                                                    ),
+                                                                                  });
+                                                                                } else {
+                                                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                                                    SnackBar(
+                                                                                      content: Text(
+                                                                                        'Nenhuma série encontrada para remover.',
+                                                                                      ),
+                                                                                    ),
+                                                                                  );
+                                                                                }
 
                                                                                 safeSetState(() {});
                                                                               },
@@ -1237,11 +1302,11 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                               child: Padding(
                                                                                                 padding: MediaQuery.viewInsetsOf(context),
                                                                                                 child: CardAcoesCopy2Widget(
-                                                                                                  cliente: widget!.cliente!,
+                                                                                                  cliente: clienteRef,
                                                                                                   listTRE: columnCreateTreinosRecord.treino,
                                                                                                   treItem: treItem,
-                                                                                                  createTreinos: widget!.createTreinos,
-                                                                                                  seriesRep: columnSeriesRepeticoesRecord!.reference,
+                                                                                                  createTreinos: createTreinosRef,
+                                                                                                  seriesRep: columnSeriesRepeticoesRecord.reference,
                                                                                                 ),
                                                                                               ),
                                                                                             );
@@ -1263,10 +1328,10 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                               child: Padding(
                                                                                                 padding: MediaQuery.viewInsetsOf(context),
                                                                                                 child: CardAcoesCopy2CopyWidget(
-                                                                                                  cliente: widget!.cliente!,
+                                                                                                  cliente: clienteRef,
                                                                                                   listTRE: columnCreateTreinosRecord.treino,
                                                                                                   treItem: treItem,
-                                                                                                  createTreinos: widget!.createTreinos,
+                                                                                                  createTreinos: createTreinosRef,
                                                                                                 ),
                                                                                               ),
                                                                                             );
@@ -1311,6 +1376,17 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                               highlightColor: Colors.transparent,
                                                                                               onTap: () async {
                                                                                                 logFirebaseEvent('PAINEL_ADMINISTRATIVO_DO_PERSONAL_Icon_c');
+                                                                                                if (!_model.editSeriesRep &&
+                                                                                                    (columnSeriesRepeticoesRecord == null)) {
+                                                                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                                                                    SnackBar(
+                                                                                                      content: Text(
+                                                                                                        'Adicione as séries/repetições antes de editar.',
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  );
+                                                                                                  return;
+                                                                                                }
                                                                                                 if (_model.editSeriesRep) {
                                                                                                   logFirebaseEvent('Icon_update_page_state');
                                                                                                   _model.editSeriesRep = false;
@@ -2642,22 +2718,19 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                             });
                                                             logFirebaseEvent(
                                                                 'Button_trigger_push_notification');
-                                                            triggerPushNotification(
+                                                              triggerPushNotification(
                                                               notificationTitle:
                                                                   'Seu personal adicionou novos treinos!',
                                                               notificationText:
                                                                   'Entre para verificar seu treino.',
                                                               notificationSound:
                                                                   'default',
-                                                              userRefs: [
-                                                                widget!.cliente!
-                                                              ],
+                                                              userRefs: [clienteRef],
                                                               initialPageName:
                                                                   'iniciarTreinoAluno',
                                                               parameterData: {
                                                                 'createTreinos':
-                                                                    widget!
-                                                                        .createTreinos,
+                                                                    createTreinosRef,
                                                               },
                                                             );
                                                             logFirebaseEvent(
@@ -3700,6 +3773,7 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                           .displayName,
                                                                       maxLines:
                                                                           2,
+                                                                      overflow: TextOverflow.ellipsis,
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .headlineSmall
@@ -3724,6 +3798,8 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                     Text(
                                                                       painelAdministrativoDoPersonalUsersRecord
                                                                           .phoneNumber,
+                                                                      maxLines: 1,
+                                                                      overflow: TextOverflow.ellipsis,
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .bodyMedium
@@ -4006,8 +4082,8 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                       'Button_firestore_query');
                                                                   _model.querySeriesListCopys =
                                                                       await querySeriesRepeticoesRecordOnce(
-                                                                    parent: widget!
-                                                                        .cliente,
+                                                                    parent:
+                                                                        clienteRef,
                                                                   );
                                                                   logFirebaseEvent(
                                                                       'Button_custom_action');
@@ -4023,18 +4099,35 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                         .displayName,
                                                                     currentUserDisplayName,
                                                                     getCurrentTimestamp,
-                                                                    widget!
-                                                                        .createTreinos!
+                                                                    createTreinosRef
                                                                         .id,
-                                                                    _model
-                                                                        .querySeriesListCopys!
+                                                                    (_model.querySeriesListCopys ??
+                                                                            const [])
                                                                         .toList(),
                                                                   );
                                                                   logFirebaseEvent(
                                                                       'Button_launch_u_r_l');
-                                                                  await launchURL(
+                                                                  final pdfUrl =
                                                                       _model
-                                                                          .customPdfCopy!);
+                                                                          .customPdfCopy;
+                                                                  if (pdfUrl !=
+                                                                          null &&
+                                                                      pdfUrl
+                                                                          .isNotEmpty) {
+                                                                    await launchURL(
+                                                                        pdfUrl);
+                                                                  } else {
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .showSnackBar(
+                                                                      SnackBar(
+                                                                        content:
+                                                                            Text(
+                                                                          'Não foi possível gerar o PDF.',
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  }
 
                                                                   safeSetState(
                                                                       () {});
@@ -4478,13 +4571,25 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                                 ).then((s) => s.firstOrNull);
                                                                                                 logFirebaseEvent('Container_backend_call');
 
-                                                                                                await _model.querySeriesReps!.reference.update({
-                                                                                                  ...mapToFirestore(
-                                                                                                    {
-                                                                                                      'treinos': FieldValue.arrayRemove([trerereItem]),
-                                                                                                    },
-                                                                                                  ),
-                                                                                                });
+                                                                                                final seriesRecord =
+                                                                                                    _model.querySeriesReps;
+                                                                                                if (seriesRecord != null) {
+                                                                                                  await seriesRecord.reference.update({
+                                                                                                    ...mapToFirestore(
+                                                                                                      {
+                                                                                                        'treinos': FieldValue.arrayRemove([trerereItem]),
+                                                                                                      },
+                                                                                                    ),
+                                                                                                  });
+                                                                                                } else {
+                                                                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                                                                    SnackBar(
+                                                                                                      content: Text(
+                                                                                                        'Nenhuma série encontrada para remover.',
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  );
+                                                                                                }
 
                                                                                                 safeSetState(() {});
                                                                                               },
@@ -4568,11 +4673,11 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                                               child: Padding(
                                                                                                                 padding: MediaQuery.viewInsetsOf(context),
                                                                                                                 child: CardAcoesCopy2Widget(
-                                                                                                                  cliente: widget!.cliente!,
+                                                                                                                  cliente: clienteRef,
                                                                                                                   listTRE: columnCreateTreinosRecord.treino,
                                                                                                                   treItem: trerereItem,
-                                                                                                                  createTreinos: widget!.createTreinos,
-                                                                                                                  seriesRep: columnSeriesRepeticoesRecord!.reference,
+                                                                                                                  createTreinos: createTreinosRef,
+                                                                                                                  seriesRep: columnSeriesRepeticoesRecord.reference,
                                                                                                                 ),
                                                                                                               ),
                                                                                                             );
@@ -4594,10 +4699,10 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                                               child: Padding(
                                                                                                                 padding: MediaQuery.viewInsetsOf(context),
                                                                                                                 child: CardAcoesCopy2CopyWidget(
-                                                                                                                  cliente: widget!.cliente!,
+                                                                                                                  cliente: clienteRef,
                                                                                                                   listTRE: columnCreateTreinosRecord.treino,
                                                                                                                   treItem: trerereItem,
-                                                                                                                  createTreinos: widget!.createTreinos,
+                                                                                                                  createTreinos: createTreinosRef,
                                                                                                                 ),
                                                                                                               ),
                                                                                                             );
@@ -4642,6 +4747,17 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                                               highlightColor: Colors.transparent,
                                                                                                               onTap: () async {
                                                                                                                 logFirebaseEvent('PAINEL_ADMINISTRATIVO_DO_PERSONAL_Icon_a');
+                                                                                                                if (!_model.editSeriesRep &&
+                                                                                                                    (columnSeriesRepeticoesRecord == null)) {
+                                                                                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                                                                                    SnackBar(
+                                                                                                                      content: Text(
+                                                                                                                        'Adicione as séries/repetições antes de editar.',
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  );
+                                                                                                                  return;
+                                                                                                                }
                                                                                                                 if (_model.editSeriesRep) {
                                                                                                                   logFirebaseEvent('Icon_update_page_state');
                                                                                                                   _model.editSeriesRep = false;
@@ -5643,7 +5759,7 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                       return;
                                                                                     }
 
-                                                                                    await widget!.createTreinos!.update({
+                                                                                    await createTreinosRef.update({
                                                                                       ...mapToFirestore(
                                                                                         {
                                                                                           'treino': FieldValue.arrayUnion([
@@ -5657,12 +5773,10 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                       notificationTitle: 'Seu personal adicionou novos treinos!',
                                                                                       notificationText: 'Entre para verificar seu treino.',
                                                                                       notificationSound: 'default',
-                                                                                      userRefs: [
-                                                                                        widget!.cliente!
-                                                                                      ],
+                                                                                      userRefs: [clienteRef],
                                                                                       initialPageName: 'iniciarTreinoAluno',
                                                                                       parameterData: {
-                                                                                        'createTreinos': widget!.createTreinos,
+                                                                                        'createTreinos': createTreinosRef,
                                                                                       },
                                                                                     );
                                                                                     logFirebaseEvent('Button_backend_call');
@@ -5987,7 +6101,7 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                   logFirebaseEvent('PAINEL_ADMINISTRATIVO_DO_PERSONAL_MANDAR');
                                                                                   logFirebaseEvent('Button_backend_call');
 
-                                                                                  await FeedbackRecord.createDoc(widget!.cliente!).set(createFeedbackRecordData(
+                                                                                  await FeedbackRecord.createDoc(clienteRef).set(createFeedbackRecordData(
                                                                                     comentarioDoAluno: _model.fullNameTextController2.text,
                                                                                     atividadeDoAluno: _model.dropDownValue3,
                                                                                     codigoDoPersonal: columnPersonalAccountRecord?.codigoPersonal,
@@ -6011,10 +6125,10 @@ class _PainelAdministrativoDoPersonalWidgetState
                                                                                             FocusScope.of(dialogContext).unfocus();
                                                                                             FocusManager.instance.primaryFocus?.unfocus();
                                                                                           },
-                                                                                          child: ProfilePersonalCopyWidget(
-                                                                                            createTreinos: widget!.createTreinos!,
-                                                                                            user: widget!.cliente!,
-                                                                                          ),
+                                                                                           child: ProfilePersonalCopyWidget(
+                                                                                             createTreinos: createTreinosRef,
+                                                                                             user: clienteRef,
+                                                                                           ),
                                                                                         ),
                                                                                       );
                                                                                     },

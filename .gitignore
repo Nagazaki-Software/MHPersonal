@@ -34,6 +34,9 @@ ios/Runner/GeneratedPluginRegistrant.*
 # Tooling (keep project tools/, but ignore temporary MinGit)
 tools/mingit/
 
+# Local tool installs
+.tools/
+
 # Local environment files (secrets)
 .env
 .env.*

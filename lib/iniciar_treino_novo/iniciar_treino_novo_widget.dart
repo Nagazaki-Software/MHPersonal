@@ -1,6 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/components/feitopelomh_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -64,24 +64,24 @@ class _IniciarTreinoNovoWidgetState extends State<IniciarTreinoNovoWidget> {
         ),
         singleRecord: true,
       ).then((s) => s.firstOrNull);
-      logFirebaseEvent('iniciarTreinoNovo_gemini');
-      await geminiGenerateText(
+      logFirebaseEvent('iniciarTreinoNovo_openrouter');
+      await openrouterGenerateText(
         context,
         'mande uma instrução desse exercicio com até 20 palavras, \"${widget!.treino}\"',
       ).then((generatedText) {
         safeSetState(() => _model.instrucao = generatedText);
       });
 
-      logFirebaseEvent('iniciarTreinoNovo_gemini');
-      await geminiGenerateText(
+      logFirebaseEvent('iniciarTreinoNovo_openrouter');
+      await openrouterGenerateText(
         context,
         'mande um nivel de dificuldade desse exercicio com até 3 palavras, \"${widget!.treino}\"',
       ).then((generatedText) {
         safeSetState(() => _model.niveldedificuldade = generatedText);
       });
 
-      logFirebaseEvent('iniciarTreinoNovo_gemini');
-      await geminiGenerateText(
+      logFirebaseEvent('iniciarTreinoNovo_openrouter');
+      await openrouterGenerateText(
         context,
         'mande uma tempo médio desse exercicio com até 3 palavras, \"${widget!.treino}\"',
       ).then((generatedText) {
@@ -1739,9 +1739,7 @@ class _VideoSection extends StatelessWidget {
           child: Stack(
             children: [
               FlutterFlowVideoPlayer(
-                path: (isAndroid && record.videoUrl1080.isNotEmpty)
-                    ? record.videoUrl1080
-                    : record.videoUrl,
+                path: record.videoUrl,
                 videoType: VideoType.network,
                 width: double.infinity,
                 height: double.infinity,

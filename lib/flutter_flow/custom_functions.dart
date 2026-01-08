@@ -994,6 +994,12 @@ List<String> retornetodasasstringbaseadonaqtd(String quantidade) {
 
 double frequenciasemanal(List<DateTime> ativityapp) {
   // verifique a frequencia media por semana
+  if (ativityapp.isEmpty) {
+    return 0.0;
+  }
+  if (ativityapp.length == 1) {
+    return 1.0;
+  }
   // Sort the list of activity dates
   ativityapp.sort();
 
@@ -1002,6 +1008,9 @@ double frequenciasemanal(List<DateTime> ativityapp) {
 
   // Calculate the total number of weeks
   int totalWeeks = (totalDays / 7).ceil();
+  if (totalWeeks <= 0) {
+    return ativityapp.length.toDouble();
+  }
 
   // Calculate the average frequency per week
   double averageFrequency = ativityapp.length / totalWeeks;

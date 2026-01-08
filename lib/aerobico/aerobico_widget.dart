@@ -65,9 +65,10 @@ class _AerobicoWidgetState extends State<AerobicoWidget>
     );
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      animationsMap['containerOnPageLoadAnimation']!
-          .controller
-          .forward(from: 0.0);
+      final pageLoadAnimation = animationsMap['containerOnPageLoadAnimation'];
+      if (pageLoadAnimation != null) {
+        pageLoadAnimation.controller.forward(from: 0.0);
+      }
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -162,17 +163,11 @@ class _AerobicoWidgetState extends State<AerobicoWidget>
                 : null,
             body: SafeArea(
               top: true,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
-                    child: StreamBuilder<List<AerobicoRecord>>(
-                      stream: queryAerobicoRecord(
-                        parent: currentUserReference,
-                      ),
-                      builder: (context, snapshot) {
+              child: StreamBuilder<List<AerobicoRecord>>(
+                stream: queryAerobicoRecord(
+                  parent: currentUserReference,
+                ),
+                builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
                         if (!snapshot.hasData) {
                           return Center(
@@ -194,9 +189,8 @@ class _AerobicoWidgetState extends State<AerobicoWidget>
                         }
 
                         return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          primary: false,
-                          shrinkWrap: true,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 12.0, 0.0, 0.0),
                           scrollDirection: Axis.vertical,
                           itemCount: listViewAerobicoRecordList.length,
                           itemBuilder: (context, listViewIndex) {
@@ -539,11 +533,8 @@ class _AerobicoWidgetState extends State<AerobicoWidget>
                             );
                           },
                         );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                  },
+                ),
             ),
           ),
         ));

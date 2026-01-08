@@ -13,6 +13,7 @@ import '/personal/card_acoes/card_acoes_widget.dart';
 import 'dart:math';
 import 'dart:ui';
 import '/index.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_debounce.dart';
@@ -970,6 +971,8 @@ class _GerenciamentodealunosWidgetState
                                               padding: EdgeInsets.zero,
                                               primary: false,
                                               shrinkWrap: true,
+                                              cacheExtent: 800.0,
+                                              addAutomaticKeepAlives: false,
                                               scrollDirection: Axis.vertical,
                                               itemCount: user.length,
                                               separatorBuilder: (_, __) =>
@@ -1288,6 +1291,8 @@ class _GerenciamentodealunosWidgetState
                                               padding: EdgeInsets.zero,
                                               primary: false,
                                               shrinkWrap: true,
+                                              cacheExtent: 800.0,
+                                              addAutomaticKeepAlives: false,
                                               scrollDirection: Axis.vertical,
                                               itemCount: listViewUsersRecordList
                                                   .length,
@@ -1585,6 +1590,8 @@ class _GerenciamentodealunosWidgetState
                                               padding: EdgeInsets.zero,
                                               primary: false,
                                               shrinkWrap: true,
+                                              cacheExtent: 800.0,
+                                              addAutomaticKeepAlives: false,
                                               scrollDirection: Axis.vertical,
                                               itemCount:
                                                   usersgerencimento.length,
@@ -1737,14 +1744,28 @@ class _GerenciamentodealunosWidgetState
                                                                           borderRadius:
                                                                               BorderRadius.circular(25.0),
                                                                           child:
-                                                                              Image.network(
-                                                                            containerUsersRecord.photoUrl,
+                                                                              CachedNetworkImage(
+                                                                            imageUrl:
+                                                                                containerUsersRecord.photoUrl,
                                                                             width:
                                                                                 50.0,
                                                                             height:
                                                                                 50.0,
                                                                             fit:
                                                                                 BoxFit.cover,
+                                                                            memCacheWidth:
+                                                                                100,
+                                                                            memCacheHeight:
+                                                                                100,
+                                                                            placeholder: (context, url) =>
+                                                                                Container(
+                                                                              color: FlutterFlowTheme.of(context).accent1,
+                                                                            ),
+                                                                            errorWidget: (context, url, error) =>
+                                                                                const Icon(
+                                                                              Icons.person,
+                                                                              size: 28.0,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
@@ -2676,6 +2697,8 @@ class _GerenciamentodealunosWidgetState
                                               padding: EdgeInsets.zero,
                                               primary: false,
                                               shrinkWrap: true,
+                                              cacheExtent: 800.0,
+                                              addAutomaticKeepAlives: false,
                                               scrollDirection: Axis.vertical,
                                               itemCount: user.length,
                                               separatorBuilder: (_, __) =>
@@ -2994,6 +3017,8 @@ class _GerenciamentodealunosWidgetState
                                               padding: EdgeInsets.zero,
                                               primary: false,
                                               shrinkWrap: true,
+                                              cacheExtent: 800.0,
+                                              addAutomaticKeepAlives: false,
                                               scrollDirection: Axis.vertical,
                                               itemCount: listViewUsersRecordList
                                                   .length,
@@ -3291,6 +3316,8 @@ class _GerenciamentodealunosWidgetState
                                               padding: EdgeInsets.zero,
                                               primary: false,
                                               shrinkWrap: true,
+                                              cacheExtent: 800.0,
+                                              addAutomaticKeepAlives: false,
                                               scrollDirection: Axis.vertical,
                                               itemCount:
                                                   usersgerencimento.length,
@@ -3443,14 +3470,28 @@ class _GerenciamentodealunosWidgetState
                                                                           borderRadius:
                                                                               BorderRadius.circular(25.0),
                                                                           child:
-                                                                              Image.network(
-                                                                            containerUsersRecord.photoUrl,
+                                                                              CachedNetworkImage(
+                                                                            imageUrl:
+                                                                                containerUsersRecord.photoUrl,
                                                                             width:
                                                                                 50.0,
                                                                             height:
                                                                                 50.0,
                                                                             fit:
                                                                                 BoxFit.cover,
+                                                                            memCacheWidth:
+                                                                                100,
+                                                                            memCacheHeight:
+                                                                                100,
+                                                                            placeholder: (context, url) =>
+                                                                                Container(
+                                                                              color: FlutterFlowTheme.of(context).accent1,
+                                                                            ),
+                                                                            errorWidget: (context, url, error) =>
+                                                                                const Icon(
+                                                                              Icons.person,
+                                                                              size: 28.0,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),

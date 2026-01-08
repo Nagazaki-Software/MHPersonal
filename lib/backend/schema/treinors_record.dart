@@ -19,14 +19,22 @@ class TreinorsRecord extends FirestoreRecord {
   // "videoUrl" field.
   String? _videoUrl;
   String get videoUrlOriginal => _videoUrl ?? '';
-  String get videoUrl =>
-      (isAndroid && videoUrl1080.isNotEmpty) ? videoUrl1080 : videoUrlOriginal;
+  String get videoUrl => isAndroid
+      ? (videoUrl720.isNotEmpty
+          ? videoUrl720
+          : (videoUrl1080.isNotEmpty ? videoUrl1080 : videoUrlOriginal))
+      : videoUrlOriginal;
   bool hasVideoUrl() => _videoUrl != null;
 
   // "videoUrl1080" field.
   String? _videoUrl1080;
   String get videoUrl1080 => _videoUrl1080 ?? '';
   bool hasVideoUrl1080() => _videoUrl1080 != null;
+
+  // "videoUrl720" field.
+  String? _videoUrl720;
+  String get videoUrl720 => _videoUrl720 ?? '';
+  bool hasVideoUrl720() => _videoUrl720 != null;
 
   // "treinos" field.
   List<String>? _treinos;
@@ -76,6 +84,7 @@ class TreinorsRecord extends FirestoreRecord {
   void _initializeFields() {
     _videoUrl = snapshotData['videoUrl'] as String?;
     _videoUrl1080 = snapshotData['videoUrl1080'] as String?;
+    _videoUrl720 = snapshotData['videoUrl720'] as String?;
     _treinos = getDataList(snapshotData['treinos']);
     _treinosNoLIst = snapshotData['treinosNoLIst'] as String?;
     _colecao = snapshotData['colecao'] as String?;
@@ -124,6 +133,7 @@ class TreinorsRecord extends FirestoreRecord {
 Map<String, dynamic> createTreinorsRecordData({
   String? videoUrl,
   String? videoUrl1080,
+  String? videoUrl720,
   String? treinosNoLIst,
   String? colecao,
   int? seriesRep,
@@ -137,6 +147,7 @@ Map<String, dynamic> createTreinorsRecordData({
     <String, dynamic>{
       'videoUrl': videoUrl,
       'videoUrl1080': videoUrl1080,
+      'videoUrl720': videoUrl720,
       'treinosNoLIst': treinosNoLIst,
       'colecao': colecao,
       'seriesRep': seriesRep,
@@ -159,6 +170,7 @@ class TreinorsRecordDocumentEquality implements Equality<TreinorsRecord> {
     const listEquality = ListEquality();
     return e1?._videoUrl == e2?._videoUrl &&
         e1?._videoUrl1080 == e2?._videoUrl1080 &&
+        e1?._videoUrl720 == e2?._videoUrl720 &&
         listEquality.equals(e1?.treinos, e2?.treinos) &&
         e1?.treinosNoLIst == e2?.treinosNoLIst &&
         e1?.colecao == e2?.colecao &&
@@ -174,6 +186,7 @@ class TreinorsRecordDocumentEquality implements Equality<TreinorsRecord> {
   int hash(TreinorsRecord? e) => const ListEquality().hash([
         e?._videoUrl,
         e?._videoUrl1080,
+        e?._videoUrl720,
         e?.treinos,
         e?.treinosNoLIst,
         e?.colecao,

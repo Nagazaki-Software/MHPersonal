@@ -1,13 +1,15 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
 import '/flutter_flow/flutter_flow_util.dart';
 
 const _kCloudFunctionsBaseUrl =
     'https://southamerica-east1-profissions-2746d.cloudfunctions.net';
 
-Future<String?> geminiGenerateText(
+Future<String?> openrouterGenerateText(
   BuildContext context,
   String prompt,
 ) async {
@@ -27,15 +29,12 @@ Future<String?> geminiGenerateText(
     final decoded = jsonDecode(resp.body) as Map<String, dynamic>;
     return decoded['text']?.toString();
   } catch (e) {
-    showSnackbar(
-      context,
-      e.toString(),
-    );
+    showSnackbar(context, e.toString());
     return null;
   }
 }
 
-Future<String?> geminiCountTokens(
+Future<String?> openrouterCountTokens(
   BuildContext context,
   String prompt,
 ) async {
@@ -55,25 +54,20 @@ Future<String?> geminiCountTokens(
     final decoded = jsonDecode(resp.body) as Map<String, dynamic>;
     return decoded['totalTokens']?.toString();
   } catch (e) {
-    showSnackbar(
-      context,
-      e.toString(),
-    );
+    showSnackbar(context, e.toString());
     return null;
   }
 }
 
-Future<Uint8List> loadImageBytesFromUrl(String imageUrl) async {
+Future<Uint8List> _loadImageBytesFromUrl(String imageUrl) async {
   final response = await http.get(Uri.parse(imageUrl));
-
   if (response.statusCode == 200) {
     return response.bodyBytes;
-  } else {
-    throw Exception('Failed to load image');
   }
+  throw Exception('Failed to load image');
 }
 
-Future<String?> geminiTextFromImage(
+Future<String?> openrouterTextFromImage(
   BuildContext context,
   String prompt, {
   String? imageNetworkUrl = '',
@@ -87,7 +81,7 @@ Future<String?> geminiTextFromImage(
   try {
     final imageBytes = uploadImageBytes != null
         ? uploadImageBytes.bytes
-        : await loadImageBytesFromUrl(imageNetworkUrl!);
+        : await _loadImageBytesFromUrl(imageNetworkUrl!);
 
     final payload = <String, dynamic>{
       'prompt': prompt,
@@ -111,10 +105,8 @@ Future<String?> geminiTextFromImage(
     final decoded = jsonDecode(resp.body) as Map<String, dynamic>;
     return decoded['text']?.toString();
   } catch (e) {
-    showSnackbar(
-      context,
-      e.toString(),
-    );
+    showSnackbar(context, e.toString());
     return null;
   }
 }
+
