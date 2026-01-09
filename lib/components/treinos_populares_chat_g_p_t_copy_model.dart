@@ -1,6 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -32,9 +32,9 @@ class TreinosPopularesChatGPTCopyModel
 
   // Stores action output result for [Firestore Query - Query a collection] action in treinosPopularesChatGPTCopy widget.
   List<TreinorsRecord>? queryTreinors;
-  // Stores action output result for [Gemini - Generate Text] action in treinosPopularesChatGPTCopy widget.
+  // Stores action output result for [OpenRouter - Generate Text] action in treinosPopularesChatGPTCopy widget.
   String? apiResult9eo;
-  // Stores action output result for [Gemini - Generate Text] action in treinosPopularesChatGPTCopy widget.
+  // Stores action output result for [OpenRouter - Generate Text] action in treinosPopularesChatGPTCopy widget.
   String? apiResult9eo2;
 
   @override

@@ -665,7 +665,7 @@ List<TreinorsRecord> verifiquesestrinretorndoc(
   }
 }
 
-bool prompForGemini(String promp) {
+bool isTrainingPrompt(String prompt) {
   // Lista de pedidos de treino
   List<String> trainingOrders = [
     'Treino para emagrecer',
@@ -852,10 +852,10 @@ bool prompForGemini(String promp) {
   ];
 
   // Converte a entrada para minúsculas
-  String lowerPromp = promp.toLowerCase();
+  String lowerPrompt = prompt.toLowerCase();
 
   // Verifica se a entrada é um pedido da lista, ignorando maiúsculas/minúsculas
-  return trainingOrders.any((order) => order.toLowerCase() == lowerPromp);
+  return trainingOrders.any((order) => order.toLowerCase() == lowerPrompt);
 }
 
 List<TreinorsRecord> verifiquesestrinretorndocCopy(
@@ -882,11 +882,6 @@ dynamic formatStringToJson(String treino) {
   dynamic jsonData = json.decode(jsonStr);
 
   return jsonData;
-}
-
-String formatTextGemini(String geminiText) {
-  // fomarte em texto simples o texto do gemini (**) e retorne
-  return geminiText.replaceAll('*', '');
 }
 
 String convertaStringEmImg(String? url) {

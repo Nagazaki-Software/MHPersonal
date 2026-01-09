@@ -1,6 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/components/feitopelomh_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -25,11 +25,11 @@ class IniciarTreinoNovoModel extends FlutterFlowModel<IniciarTreinoNovoWidget> {
 
   // Stores action output result for [Firestore Query - Query a collection] action in iniciarTreinoNovo widget.
   CreateTreinosRecord? treinoslist;
-  // Stores action output result for [Gemini - Generate Text] action in iniciarTreinoNovo widget.
+  // Stores action output result for [OpenRouter - Generate Text] action in iniciarTreinoNovo widget.
   String? instrucao;
-  // Stores action output result for [Gemini - Generate Text] action in iniciarTreinoNovo widget.
+  // Stores action output result for [OpenRouter - Generate Text] action in iniciarTreinoNovo widget.
   String? niveldedificuldade;
-  // Stores action output result for [Gemini - Generate Text] action in iniciarTreinoNovo widget.
+  // Stores action output result for [OpenRouter - Generate Text] action in iniciarTreinoNovo widget.
   String? tempomedio;
   // State field(s) for Timer widget.
   final timerInitialTimeMs = 0;

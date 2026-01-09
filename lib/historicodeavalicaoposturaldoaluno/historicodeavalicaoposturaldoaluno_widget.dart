@@ -1,6 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/components/feitopelomh_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -46,7 +46,7 @@ class _HistoricodeavalicaoposturaldoalunoWidgetState
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('HISTORICODEAVALICAOPOSTURALDOALUNO_histo');
       logFirebaseEvent('historicodeavalicaoposturaldoaluno_gemin');
-      await geminiGenerateText(
+      await openrouterGenerateText(
         context,
         'Recomendações da sua avaliação postural.',
       ).then((generatedText) {

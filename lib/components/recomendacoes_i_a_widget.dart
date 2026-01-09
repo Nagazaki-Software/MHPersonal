@@ -1,5 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -39,17 +39,17 @@ class _RecomendacoesIAWidgetState extends State<RecomendacoesIAWidget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('RECOMENDACOES_I_A_recomendacoesIA_ON_INI');
-      logFirebaseEvent('recomendacoesIA_gemini');
-      await geminiGenerateText(
+      logFirebaseEvent('recomendacoesIA_openrouter');
+      await openrouterGenerateText(
         context,
         'Faça somente uma lista com virgula no final de cada pergunta menos na ultima e com 4 perguntas na lista para a IA para quem quer \"${valueOrDefault(currentUserDocument?.objetivoNoApp, '')}\" (Mande sem nenhum numero de lista, a pergunta é para a inteligencia artificial questões sobre quem quer \"${valueOrDefault(currentUserDocument?.objetivoNoApp, '')}\" para o usuario.',
       ).then((generatedText) {
-        safeSetState(() => _model.geminitxt = generatedText);
+        safeSetState(() => _model.aiText = generatedText);
       });
 
       logFirebaseEvent('recomendacoesIA_update_app_state');
       FFAppState().perguntaslist = functions
-          .formatStringEmList(_model.geminitxt!)
+          .formatStringEmList(_model.aiText!)
           .toList()
           .cast<String>();
       FFAppState().update(() {});
@@ -174,18 +174,18 @@ class _RecomendacoesIAWidgetState extends State<RecomendacoesIAWidget> {
                           data: getCurrentTimestamp,
                         ));
                         FFAppState().update(() {});
-                        logFirebaseEvent('Container_gemini');
-                        await geminiGenerateText(
+                        logFirebaseEvent('Container_openrouter');
+                        await openrouterGenerateText(
                           context,
                           '(finja ser o MH Assistente o assistente do aluno para academia, fitness e saude)responda essa pergunta do aluno \"${perguntasItem}\"',
                         ).then((generatedText) {
                           safeSetState(
-                              () => _model.geminiresponse = generatedText);
+                              () => _model.aiResponse = generatedText);
                         });
 
                         logFirebaseEvent('Container_update_app_state');
                         FFAppState().addToChat(MessageStruct(
-                          text: _model.geminiresponse,
+                          text: _model.aiResponse,
                           role: 'system',
                           data: getCurrentTimestamp,
                         ));

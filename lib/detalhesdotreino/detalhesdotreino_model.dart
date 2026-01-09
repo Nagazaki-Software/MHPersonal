@@ -1,7 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/components/addtreino_widget.dart';
 import '/components/reomendadopelomh_copy_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -23,7 +23,7 @@ class DetalhesdotreinoModel extends FlutterFlowModel<DetalhesdotreinoWidget> {
 
   // Stores action output result for [Backend Call - Read Document] action in detalhesdotreino widget.
   TreinorsRecord? treinortreino;
-  // Stores action output result for [Gemini - Generate Text] action in detalhesdotreino widget.
+  // Stores action output result for [OpenRouter - Generate Text] action in detalhesdotreino widget.
   String? apiResult8j7;
   // Model for reomendadopelomhCopy component.
   late ReomendadopelomhCopyModel reomendadopelomhCopyModel;

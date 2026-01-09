@@ -82,8 +82,8 @@ class BancodedadosGroup {
   static VerifyAccountStripeCall verifyAccountStripeCall =
       VerifyAccountStripeCall();
   static SaldoConnectedCall saldoConnectedCall = SaldoConnectedCall();
-  static GeminiConversaPlanoGeminiCall geminiConversaPlanoGeminiCall =
-      GeminiConversaPlanoGeminiCall();
+  static OpenrouterConversaPlanoCall openrouterConversaPlanoCall =
+      OpenrouterConversaPlanoCall();
 }
 
 class CriarSubinscricaoCall {
@@ -328,7 +328,7 @@ class SaldoConnectedCall {
       ));
 }
 
-class GeminiConversaPlanoGeminiCall {
+class OpenrouterConversaPlanoCall {
   Future<ApiCallResponse> call({
     String? userId = '',
     String? mensagem = '',
@@ -336,7 +336,7 @@ class GeminiConversaPlanoGeminiCall {
     final baseUrl = BancodedadosGroup.getBaseUrl();
 
     return ApiManager.instance.makeApiCall(
-      callName: 'gemini conversa plano gemini',
+      callName: 'openrouter conversa plano',
       apiUrl: '${baseUrl}/AIparaconversarcomosusers',
       callType: ApiCallType.POST,
       headers: {},
@@ -383,7 +383,7 @@ class GeminiConversaPlanoGeminiCall {
 
 /// End bancodedados Group Code
 
-class GeminiApiCall {
+class OpenrouterGenerateTextCall {
   static Future<ApiCallResponse> call({
     String? prompt = '',
   }) async {
@@ -392,7 +392,7 @@ class GeminiApiCall {
   "prompt": "${escapeStringForJson(prompt)}"
 }''';
     return ApiManager.instance.makeApiCall(
-      callName: 'GeminiApi',
+      callName: 'OpenrouterGenerateText',
       apiUrl:
           'https://southamerica-east1-profissions-2746d.cloudfunctions.net/openrouterGenerateText',
       callType: ApiCallType.POST,

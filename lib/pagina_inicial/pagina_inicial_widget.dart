@@ -1298,7 +1298,7 @@ MH Personal Trai... */
                                                                           Icons
                                                                               .area_chart_sharp,
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                              Colors.white,
                                                                           size:
                                                                               30.0,
                                                                         ),
@@ -1319,6 +1319,7 @@ Completa */
                                                                                       fontWeight: FontWeight.w600,
                                                                                       fontStyle: FontStyle.italic,
                                                                                     ),
+                                                                                    color: Colors.white,
                                                                                     fontSize: 18.0,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.w600,
@@ -1363,8 +1364,7 @@ Completa */
                                                                       Icon(
                                                                         Icons
                                                                             .area_chart_sharp,
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .primaryText,
+                                                                        color: Colors.white,
                                                                         size:
                                                                             30.0,
                                                                       ),
@@ -1385,6 +1385,7 @@ dos treinos */
                                                                                     fontWeight: FontWeight.w600,
                                                                                     fontStyle: FontStyle.italic,
                                                                                   ),
+                                                                                  color: Colors.white,
                                                                                   fontSize: 18.0,
                                                                                   letterSpacing: 0.0,
                                                                                   fontWeight: FontWeight.w600,
@@ -1464,7 +1465,7 @@ dos treinos */
                                                                           Icons
                                                                               .area_chart_sharp,
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                              Colors.white,
                                                                           size:
                                                                               30.0,
                                                                         ),
@@ -1485,6 +1486,7 @@ Agenda Fit */
                                                                                       fontWeight: FontWeight.w600,
                                                                                       fontStyle: FontStyle.italic,
                                                                                     ),
+                                                                                    color: Colors.white,
                                                                                     fontSize: 18.0,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.w600,
@@ -1529,8 +1531,7 @@ Agenda Fit */
                                                                       Icon(
                                                                         Icons
                                                                             .area_chart_sharp,
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .primaryText,
+                                                                        color: Colors.white,
                                                                         size:
                                                                             30.0,
                                                                       ),
@@ -1551,6 +1552,7 @@ de treinos */
                                                                                     fontWeight: FontWeight.w600,
                                                                                     fontStyle: FontStyle.italic,
                                                                                   ),
+                                                                                  color: Colors.white,
                                                                                   fontSize: 18.0,
                                                                                   letterSpacing: 0.0,
                                                                                   fontWeight: FontWeight.w600,

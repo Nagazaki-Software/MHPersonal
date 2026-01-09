@@ -1,5 +1,5 @@
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/components/headerweb_widget.dart';
 import '/components/naoexisteavaliacoesposturais_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -52,7 +52,7 @@ class _TodasasavaliacoesposturaisPersonalWidgetState
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('TODASASAVALIACOESPOSTURAIS_PERSONAL_toda');
       logFirebaseEvent('todasasavaliacoesposturaisPersonal_gemin');
-      await geminiGenerateText(
+      await openrouterGenerateText(
         context,
         'Recomendações com poucas palavras para a realização das avaliações posturais',
       ).then((generatedText) {

@@ -1,7 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/avaliacao_in_personal/create_protocolo/create_protocolo_widget.dart';
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/components/feitopelomh_widget.dart';
 import '/components/headerweb_widget.dart';
 import '/components/voce_ainda_nao_add_avaliacao_widget.dart';
@@ -70,8 +70,8 @@ class _AvaliacoesFisicasWidgetState extends State<AvaliacoesFisicasWidget>
         parent: widget!.users,
         singleRecord: true,
       ).then((s) => s.firstOrNull);
-      logFirebaseEvent('avaliacoesFisicas_gemini');
-      await geminiGenerateText(
+      logFirebaseEvent('avaliacoesFisicas_openrouter');
+      await openrouterGenerateText(
         context,
         'protocolo de avaliacaoRetorne com poucas palavras uma análise sobre a avaliação física do aluno com essas informações: ${_model.queryavfisica?.protocoloDeAvaliacao},  idade: ${_model.queryavfisica?.idade.toString()}, estatura: ${_model.queryavfisica?.estatura.toString()}, peso: ${_model.queryavfisica?.peso.toString()}, pescoco: ${_model.queryavfisica?.pescoco.toString()}, torax: ${_model.queryavfisica?.torax.toString()}, ombro: ${_model.queryavfisica?.ombro.toString()}, braco esquerdo: ${_model.queryavfisica?.bracoEsquerdo.toString()}, braco direito: ${_model.queryavfisica?.bracoDireito.toString()}, percentual de gordura: ${_model.queryavfisica?.porcentualDeGordura.toString()}',
       ).then((generatedText) {

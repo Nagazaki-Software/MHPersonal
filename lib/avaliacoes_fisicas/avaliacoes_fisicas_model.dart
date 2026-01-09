@@ -1,7 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/avaliacao_in_personal/create_protocolo/create_protocolo_widget.dart';
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/components/feitopelomh_widget.dart';
 import '/components/headerweb_widget.dart';
 import '/components/voce_ainda_nao_add_avaliacao_widget.dart';
@@ -31,7 +31,7 @@ class AvaliacoesFisicasModel extends FlutterFlowModel<AvaliacoesFisicasWidget> {
   List<AvaliacoesFisicasRecord>? queryAvFisicas;
   // Stores action output result for [Firestore Query - Query a collection] action in avaliacoesFisicas widget.
   AvaliacoesFisicasRecord? queryavfisica;
-  // Stores action output result for [Gemini - Generate Text] action in avaliacoesFisicas widget.
+  // Stores action output result for [OpenRouter - Generate Text] action in avaliacoesFisicas widget.
   String? gemii;
   // Model for feitopelomh component.
   late FeitopelomhModel feitopelomhModel1;

@@ -1,5 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -16,10 +16,10 @@ import 'package:provider/provider.dart';
 class RecomendacoesIAModel extends FlutterFlowModel<RecomendacoesIAWidget> {
   ///  State fields for stateful widgets in this component.
 
-  // Stores action output result for [Gemini - Generate Text] action in recomendacoesIA widget.
-  String? geminitxt;
-  // Stores action output result for [Gemini - Generate Text] action in Container widget.
-  String? geminiresponse;
+  // Stores action output result for [OpenRouter - Generate Text] action in recomendacoesIA widget.
+  String? aiText;
+  // Stores action output result for [OpenRouter - Generate Text] action in Container widget.
+  String? aiResponse;
 
   @override
   void initState(BuildContext context) {}

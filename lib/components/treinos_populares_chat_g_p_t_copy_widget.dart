@@ -1,6 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -50,8 +50,8 @@ class _TreinosPopularesChatGPTCopyWidgetState
       if (valueOrDefault(currentUserDocument?.objetivoNoApp, '') != null &&
           valueOrDefault(currentUserDocument?.objetivoNoApp, '') != '') {
         if (functions.cada4dias(getCurrentTimestamp)) {
-          logFirebaseEvent('treinosPopularesChatGPTCopy_gemini');
-          await geminiGenerateText(
+          logFirebaseEvent('treinosPopularesChatGPTCopy_openrouter');
+          await openrouterGenerateText(
             context,
             'Retorne somente 6 os exericicos exclusivamente desta lista  \" ${functions.formatelistaparasingle(_model.queryTreinors!.map((e) => e.treinosNoLIst).toList().toList())}\" baseando os melhores treinos para \" ${valueOrDefault(currentUserDocument?.objetivoNoApp, '')}\" (RETORNE SÓ O CONTEÚDO DA LISTA  E RETORNE A PALAVRA IGUAL A DA LISTA E COM VIRGULA NO FINAL DE CADA)',
           ).then((generatedText) {
@@ -66,8 +66,8 @@ class _TreinosPopularesChatGPTCopyWidgetState
           FFAppState().update(() {});
         } else if (!(_model.queryTreinors != null &&
             (_model.queryTreinors)!.isNotEmpty)) {
-          logFirebaseEvent('treinosPopularesChatGPTCopy_gemini');
-          await geminiGenerateText(
+          logFirebaseEvent('treinosPopularesChatGPTCopy_openrouter');
+          await openrouterGenerateText(
             context,
             'Retorne somente 6 os exericicos exclusivamente desta lista  \" ${functions.formatelistaparasingle(_model.queryTreinors!.map((e) => e.treinosNoLIst).toList().toList())}\" baseando os melhores treinos para \" ${valueOrDefault(currentUserDocument?.objetivoNoApp, '')}\" (RETORNE SÓ O CONTEÚDO DA LISTA  E RETORNE A PALAVRA IGUAL A DA LISTA E COM VIRGULA NO FINAL DE CADA)',
           ).then((generatedText) {

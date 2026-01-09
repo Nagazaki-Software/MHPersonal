@@ -1,4 +1,4 @@
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -48,12 +48,12 @@ class _TreinoNoListBicepsWidgetState extends State<TreinoNoListBicepsWidget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('TREINO_NO_LIST_BICEPS_treinoNoListBiceps');
-      logFirebaseEvent('treinoNoListBiceps_gemini');
-      await geminiGenerateText(
+      logFirebaseEvent('treinoNoListBiceps_openrouter');
+      await openrouterGenerateText(
         context,
         'Retorne somente a URL de uma imagem baseada nesta palavra \"${widget!.parameter1}\".',
       ).then((generatedText) {
-        safeSetState(() => _model.imagemGemini = generatedText);
+        safeSetState(() => _model.imagemAI = generatedText);
       });
     });
 
@@ -127,7 +127,7 @@ class _TreinoNoListBicepsWidgetState extends State<TreinoNoListBicepsWidget> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.network(
-                          functions.convertaStringEmImg(_model.imagemGemini),
+                          functions.convertaStringEmImg(_model.imagemAI),
                           width: 80.0,
                           height: 80.0,
                           fit: BoxFit.cover,

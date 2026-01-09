@@ -1,4 +1,4 @@
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -17,8 +17,8 @@ class TreinoNoListBicepsModel
     extends FlutterFlowModel<TreinoNoListBicepsWidget> {
   ///  State fields for stateful widgets in this component.
 
-  // Stores action output result for [Gemini - Generate Text] action in treinoNoListBiceps widget.
-  String? imagemGemini;
+  // Stores action output result for [OpenRouter - Generate Text] action in treinoNoListBiceps widget.
+  String? imagemAI;
 
   @override
   void initState(BuildContext context) {}

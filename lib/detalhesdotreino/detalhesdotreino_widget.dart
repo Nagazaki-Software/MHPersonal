@@ -1,7 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/components/addtreino_widget.dart';
 import '/components/reomendadopelomh_copy_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -53,8 +53,8 @@ class _DetalhesdotreinoWidgetState extends State<DetalhesdotreinoWidget> {
       logFirebaseEvent('detalhesdotreino_backend_call');
       _model.treinortreino =
           await TreinorsRecord.getDocumentOnce(widget!.treinors!);
-      logFirebaseEvent('detalhesdotreino_gemini');
-      await geminiGenerateText(
+      logFirebaseEvent('detalhesdotreino_openrouter');
+      await openrouterGenerateText(
         context,
         'Faça um resumo de até 150 caracteres sobre: ${_model.treinortreino?.treinosNoLIst}',
       ).then((generatedText) {
@@ -339,7 +339,7 @@ class _DetalhesdotreinoWidgetState extends State<DetalhesdotreinoWidget> {
                                           ),
                                     ),
                                     FutureBuilder<ApiCallResponse>(
-                                      future: GeminiApiCall.call(
+                                      future: OpenrouterGenerateTextCall.call(
                                         prompt:
                                             'Mande com até 3 palavras a duração deste treino:${detalhesdotreinoTreinorsRecord.treinosNoLIst}',
                                       ),
@@ -359,7 +359,7 @@ class _DetalhesdotreinoWidgetState extends State<DetalhesdotreinoWidget> {
                                             ),
                                           );
                                         }
-                                        final rowGeminiApiResponse =
+                                        final rowOpenrouterApiResponse =
                                             snapshot.data!;
 
                                         return Row(
@@ -413,8 +413,8 @@ class _DetalhesdotreinoWidgetState extends State<DetalhesdotreinoWidget> {
                                                   ),
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      GeminiApiCall.textoGerado(
-                                                        rowGeminiApiResponse
+                                                      OpenrouterGenerateTextCall.textoGerado(
+                                                        rowOpenrouterApiResponse
                                                             .jsonBody,
                                                       ),
                                                       'duracao',
@@ -464,7 +464,7 @@ class _DetalhesdotreinoWidgetState extends State<DetalhesdotreinoWidget> {
                                       },
                                     ),
                                     FutureBuilder<ApiCallResponse>(
-                                      future: GeminiApiCall.call(
+                                      future: OpenrouterGenerateTextCall.call(
                                         prompt:
                                             'Com até 3 palavras mande o nível de dificulade do:${detalhesdotreinoTreinorsRecord.treinosNoLIst}',
                                       ),
@@ -484,7 +484,7 @@ class _DetalhesdotreinoWidgetState extends State<DetalhesdotreinoWidget> {
                                             ),
                                           );
                                         }
-                                        final rowGeminiApiResponse =
+                                        final rowOpenrouterApiResponse =
                                             snapshot.data!;
 
                                         return Row(
@@ -538,8 +538,8 @@ class _DetalhesdotreinoWidgetState extends State<DetalhesdotreinoWidget> {
                                                   ),
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      GeminiApiCall.textoGerado(
-                                                        rowGeminiApiResponse
+                                                      OpenrouterGenerateTextCall.textoGerado(
+                                                        rowOpenrouterApiResponse
                                                             .jsonBody,
                                                       ),
                                                       'nivel',
@@ -589,7 +589,7 @@ class _DetalhesdotreinoWidgetState extends State<DetalhesdotreinoWidget> {
                                       },
                                     ),
                                     FutureBuilder<ApiCallResponse>(
-                                      future: GeminiApiCall.call(
+                                      future: OpenrouterGenerateTextCall.call(
                                         prompt:
                                             'Com até 3 palavras mande só a caloria do: ${detalhesdotreinoTreinorsRecord.treinosNoLIst}',
                                       ),
@@ -609,7 +609,7 @@ class _DetalhesdotreinoWidgetState extends State<DetalhesdotreinoWidget> {
                                             ),
                                           );
                                         }
-                                        final rowGeminiApiResponse =
+                                        final rowOpenrouterApiResponse =
                                             snapshot.data!;
 
                                         return Row(
@@ -663,8 +663,8 @@ class _DetalhesdotreinoWidgetState extends State<DetalhesdotreinoWidget> {
                                                   ),
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      GeminiApiCall.textoGerado(
-                                                        rowGeminiApiResponse
+                                                      OpenrouterGenerateTextCall.textoGerado(
+                                                        rowOpenrouterApiResponse
                                                             .jsonBody,
                                                       ),
                                                       'caloria',

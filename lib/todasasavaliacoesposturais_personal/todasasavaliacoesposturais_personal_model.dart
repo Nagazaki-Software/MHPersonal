@@ -1,5 +1,5 @@
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/components/headerweb_widget.dart';
 import '/components/naoexisteavaliacoesposturais_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -21,7 +21,7 @@ class TodasasavaliacoesposturaisPersonalModel
     extends FlutterFlowModel<TodasasavaliacoesposturaisPersonalWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // Stores action output result for [Gemini - Generate Text] action in todasasavaliacoesposturaisPersonal widget.
+  // Stores action output result for [OpenRouter - Generate Text] action in todasasavaliacoesposturaisPersonal widget.
   String? avPostural;
   // Model for headerweb component.
   late HeaderwebModel headerwebModel;

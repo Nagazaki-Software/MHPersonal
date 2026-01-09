@@ -1,7 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/backend/schema/structs/index.dart';
 import '/components/perfil_do_mh_assistente_widget.dart';
 import '/components/recomendacoes_i_a_widget.dart';
@@ -61,8 +61,8 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
       _model.queryCreatetREINOS = await queryCreateTreinosRecordOnce(
         singleRecord: true,
       ).then((s) => s.firstOrNull);
-      logFirebaseEvent('chatMHAssistente_gemini');
-      await geminiGenerateText(
+      logFirebaseEvent('chatMHAssistente_openrouter');
+      await openrouterGenerateText(
         context,
         '**Finja ser o MH Personal Trainer, você está conversando com ${currentUserDisplayName}, você começa a conversa.',
       ).then((generatedText) {
@@ -1126,7 +1126,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                                     'TextField_backend_call');
                                                 _model.chatGPT =
                                                     await BancodedadosGroup
-                                                        .geminiConversaPlanoGeminiCall
+                                                        .openrouterConversaPlanoCall
                                                         .call(
                                                   userId: currentUserUid,
                                                   mensagem: _model
@@ -1134,7 +1134,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                                 );
 
                                                 if (BancodedadosGroup
-                                                            .geminiConversaPlanoGeminiCall
+                                                            .openrouterConversaPlanoCall
                                                             .resposta(
                                                           (_model.chatGPT
                                                                   ?.jsonBody ??
@@ -1142,7 +1142,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                                         ) !=
                                                         null &&
                                                     BancodedadosGroup
-                                                            .geminiConversaPlanoGeminiCall
+                                                            .openrouterConversaPlanoCall
                                                             .resposta(
                                                           (_model.chatGPT
                                                                   ?.jsonBody ??
@@ -1154,7 +1154,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                                   FFAppState()
                                                       .addToChat(MessageStruct(
                                                     text: BancodedadosGroup
-                                                        .geminiConversaPlanoGeminiCall
+                                                        .openrouterConversaPlanoCall
                                                         .resposta(
                                                       (_model.chatGPT
                                                               ?.jsonBody ??
@@ -1165,7 +1165,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                                   ));
                                                   FFAppState().update(() {});
                                                 } else if (BancodedadosGroup
-                                                            .geminiConversaPlanoGeminiCall
+                                                            .openrouterConversaPlanoCall
                                                             .nomedarotina(
                                                           (_model.chatGPT
                                                                   ?.jsonBody ??
@@ -1173,7 +1173,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                                         ) !=
                                                         null &&
                                                     BancodedadosGroup
-                                                            .geminiConversaPlanoGeminiCall
+                                                            .openrouterConversaPlanoCall
                                                             .nomedarotina(
                                                           (_model.chatGPT
                                                                   ?.jsonBody ??
@@ -1187,7 +1187,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                                     role: 'system',
                                                     data: getCurrentTimestamp,
                                                     uidtreino: BancodedadosGroup
-                                                        .geminiConversaPlanoGeminiCall
+                                                        .openrouterConversaPlanoCall
                                                         .uidtreino(
                                                       (_model.chatGPT
                                                               ?.jsonBody ??
@@ -1347,7 +1347,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                           logFirebaseEvent('Icon_backend_call');
                                           _model.chatGPTCopy =
                                               await BancodedadosGroup
-                                                  .geminiConversaPlanoGeminiCall
+                                                  .openrouterConversaPlanoCall
                                                   .call(
                                             userId: currentUserUid,
                                             mensagem:
@@ -1355,7 +1355,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                           );
 
                                           if (BancodedadosGroup
-                                                      .geminiConversaPlanoGeminiCall
+                                                      .openrouterConversaPlanoCall
                                                       .resposta(
                                                     (_model.chatGPTCopy
                                                             ?.jsonBody ??
@@ -1363,7 +1363,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                                   ) !=
                                                   null &&
                                               BancodedadosGroup
-                                                      .geminiConversaPlanoGeminiCall
+                                                      .openrouterConversaPlanoCall
                                                       .resposta(
                                                     (_model.chatGPTCopy
                                                             ?.jsonBody ??
@@ -1375,7 +1375,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                             FFAppState()
                                                 .addToChat(MessageStruct(
                                               text: BancodedadosGroup
-                                                  .geminiConversaPlanoGeminiCall
+                                                  .openrouterConversaPlanoCall
                                                   .resposta(
                                                 (_model.chatGPTCopy?.jsonBody ??
                                                     ''),
@@ -1385,7 +1385,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                             ));
                                             FFAppState().update(() {});
                                           } else if (BancodedadosGroup
-                                                      .geminiConversaPlanoGeminiCall
+                                                      .openrouterConversaPlanoCall
                                                       .nomedarotina(
                                                     (_model.chatGPTCopy
                                                             ?.jsonBody ??
@@ -1393,7 +1393,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                                   ) !=
                                                   null &&
                                               BancodedadosGroup
-                                                      .geminiConversaPlanoGeminiCall
+                                                      .openrouterConversaPlanoCall
                                                       .nomedarotina(
                                                     (_model.chatGPTCopy
                                                             ?.jsonBody ??
@@ -1407,7 +1407,7 @@ class _ChatMHAssistenteWidgetState extends State<ChatMHAssistenteWidget>
                                               role: 'system',
                                               data: getCurrentTimestamp,
                                               uidtreino: BancodedadosGroup
-                                                  .geminiConversaPlanoGeminiCall
+                                                  .openrouterConversaPlanoCall
                                                   .uidtreino(
                                                 (_model.chatGPTCopy?.jsonBody ??
                                                     ''),

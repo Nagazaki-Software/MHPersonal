@@ -37,7 +37,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 class PaginaInicialModel extends FlutterFlowModel<PaginaInicialWidget> {
   ///  Local state fields for this page.
 
-  String defaultGemini =
+  String defaultAI =
       'Ops, eu não consigo te responder algo sobre treino ou saúde.';
 
   bool abrirFAB = false;

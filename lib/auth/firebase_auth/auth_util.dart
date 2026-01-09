@@ -49,7 +49,15 @@ DocumentReference? get currentUserReference =>
 UsersRecord? currentUserDocument;
 final authenticatedUserStream = FirebaseAuth.instance
     .authStateChanges()
-    .map<String>((user) => user?.uid ?? '')
+    .asyncMap<String>((user) async {
+      if (user == null) {
+        return '';
+      }
+      // Garante que o doc do usuário exista mesmo em sessões restauradas
+      // (quando não passou pelo fluxo de login/cadastro).
+      await maybeCreateUser(user);
+      return user.uid;
+    })
     .switchMap(
       (uid) => uid.isEmpty
           ? Stream.value(null)

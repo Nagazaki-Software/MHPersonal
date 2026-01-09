@@ -1658,8 +1658,9 @@ Stream<List<T>> queryCollection<T>(
   }
   return query
       .snapshots()
-      .transform(StreamTransformer<QuerySnapshot, QuerySnapshot>.fromHandlers(
-          handleError: (err, stack, sink) {
+      .transform(StreamTransformer<QuerySnapshot<Map<String, dynamic>>,
+          QuerySnapshot<Map<String, dynamic>>>.fromHandlers(handleError:
+          (err, stack, sink) {
         print('Error querying $collection: $err');
         sink.addError(err, stack);
       }))

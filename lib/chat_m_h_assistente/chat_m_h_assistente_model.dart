@@ -1,7 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/backend/gemini/gemini.dart';
+import '/backend/openrouter/openrouter.dart';
 import '/backend/schema/structs/index.dart';
 import '/components/perfil_do_mh_assistente_widget.dart';
 import '/components/recomendacoes_i_a_widget.dart';
@@ -36,7 +36,7 @@ class ChatMHAssistenteModel extends FlutterFlowModel<ChatMHAssistenteWidget> {
   List<TreinorsRecord>? queryTreinors;
   // Stores action output result for [Firestore Query - Query a collection] action in chatMHAssistente widget.
   CreateTreinosRecord? queryCreatetREINOS;
-  // Stores action output result for [Gemini - Generate Text] action in chatMHAssistente widget.
+  // Stores action output result for [OpenRouter - Generate Text] action in chatMHAssistente widget.
   String? primeiraCV;
   // State field(s) for Column widget.
   ScrollController? columnController;
@@ -46,9 +46,9 @@ class ChatMHAssistenteModel extends FlutterFlowModel<ChatMHAssistenteWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
-  // Stores action output result for [Backend Call - API (gemini conversa plano gemini)] action in TextField widget.
+  // Stores action output result for [Backend Call - API (openrouter conversa plano)] action in TextField widget.
   ApiCallResponse? chatGPT;
-  // Stores action output result for [Backend Call - API (gemini conversa plano gemini)] action in Icon widget.
+  // Stores action output result for [Backend Call - API (openrouter conversa plano)] action in Icon widget.
   ApiCallResponse? chatGPTCopy;
 
   @override
